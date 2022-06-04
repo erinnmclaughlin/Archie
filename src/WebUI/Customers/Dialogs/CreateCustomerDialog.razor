@@ -22,11 +22,11 @@
     
     <div class="mb-3">        
         <label for="country" class="form-label">Country</label>
-        <InputText @bind-Value="Model.Country" class="form-control" id="country" placeholder="e.g., Boston" />
+        <InputText @bind-Value="Model.Country" class="form-control" id="country" placeholder="e.g., USA" />
         <ValidationMessage For="() => Model.Country" />
     </div>
    
-    <button type="submit" class="btn btn-success">Create Customer</button>
-    <button type="button" class="btn btn-secondary" @onclick="Close">Cancel</button>
+    <button disabled="@IsSubmitting" type="submit" class="btn btn-success">Create Customer</button>
+    <button disabled="@IsSubmitting" type="button" class="btn btn-secondary" @onclick="Close">Cancel</button>
 
 </EditForm>

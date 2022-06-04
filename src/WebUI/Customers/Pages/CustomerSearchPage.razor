@@ -1,9 +1,30 @@
 ﻿@page "/customers"
 @using Archie.WebUI.Customers.Dialogs
 
+<CreateCustomerDialogLauncher @ref="DialogLauncher" />
+
 <header class="d-flex justify-content-between align-items-center">
     <h3>Customer Search</h3>
     <button class="btn btn-success btn-sm" @onclick="LaunchCreateDialog">New Customer</button>
 </header>
 
-<CreateCustomerDialogLauncher @ref="DialogLauncher" />
+<section class="section">
+    @if (Customers == null)
+    {
+        <p>Loading...</p>
+    }
+    else if (!Customers.Any())
+    {
+        <p>None found.</p>
+    }
+    else
+    {
+        <dl>
+            @foreach(var customer in Customers)
+            {
+                <dt>@customer.CompanyName</dt>
+                <dd class="text-muted">@customer.Location.City @customer.Location.Region @customer.Location.Country</dd>
+            }
+        </dl>
+    }
+</section>
