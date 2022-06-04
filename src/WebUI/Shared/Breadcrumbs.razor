@@ -1,0 +1,9 @@
+﻿<nav aria-label="breadcrumb">
+    <ol class="breadcrumb py-3 mb-0">
+        @ChildContent
+    </ol>
+</nav>
+
+@code {
+    [Parameter, EditorRequired] public RenderFragment ChildContent { get; set; } = default!;
+}
