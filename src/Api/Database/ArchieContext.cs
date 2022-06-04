@@ -8,10 +8,8 @@ public class ArchieContext : DbContext
 {
     public DbSet<Audit> Audits => Set<Audit>();
     public DbSet<Customer> Customers => Set<Customer>();
-    public DbSet<CustomerAudit> CustomerAudits => Set<CustomerAudit>();
     public DbSet<User> Users => Set<User>();
     public DbSet<WorkOrder> WorkOrders => Set<WorkOrder>();
-    public DbSet<WorkOrderAudit> WorkOrderAudits => Set<WorkOrderAudit>();
 
     public ArchieContext(DbContextOptions<ArchieContext> options) : base(options)
     {

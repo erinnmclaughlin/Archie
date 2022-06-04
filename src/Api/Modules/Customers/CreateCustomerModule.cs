@@ -29,7 +29,7 @@ public class CreateCustomerModule : IModule
             CompanyName = request.CompanyName,
             Location = request.Location,
 
-            AuditTrail = new List<CustomerAudit> { Audits.CustomerCreated(request.CompanyName) }
+            AuditTrail = new List<Audit> { Audits.CustomerCreated(request.CompanyName) }
         };
 
         Repository.Add(customer);
@@ -52,12 +52,12 @@ public class CreateCustomerModule : IModule
             CurrentUser = currentUser;
         }
 
-        public virtual CustomerAudit CustomerCreated(string companyName)
+        public virtual Audit CustomerCreated(string companyName)
         {
-            return new CustomerAudit
+            return new Audit
             {
                 AuditType = AuditType.Create,
-                EventType = CustomerEvent.Created,
+                EventType = EventType.CustomerCreated,
                 Description = $"Customer `{companyName}` was created.",
                 UserId = CurrentUser.Id
             };

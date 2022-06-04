@@ -29,7 +29,7 @@ public class UpdateCustomerModule : IModule
         var customer = await Repository.FindByIdAsync<Customer, long>(id, ct)
             ?? throw new EntityNotFoundException("Customer not found.");
 
-        customer.AuditTrail ??= new List<CustomerAudit>();
+        customer.AuditTrail ??= new List<Audit>();
 
         if (!customer.CompanyName.Equals(request.CompanyName))
         {
@@ -58,23 +58,23 @@ public class UpdateCustomerModule : IModule
             CurrentUser = currentUser;
         }
 
-        public virtual CustomerAudit LocationUpdated(Location oldLocation, Location newLocation)
+        public virtual Audit LocationUpdated(Location oldLocation, Location newLocation)
         {
-            return new CustomerAudit
+            return new Audit
             {
                 AuditType = AuditType.Update,
-                EventType = CustomerEvent.LocationUpdated,
+                EventType = EventType.CustomerLocationUpdated,
                 Description = $"Location was updated from `{oldLocation}` to `{newLocation}`.",
                 UserId = CurrentUser.Id
             };
         }
 
-        public virtual CustomerAudit NameUpdated(string oldName, string newName)
+        public virtual Audit NameUpdated(string oldName, string newName)
         {
-            return new CustomerAudit
+            return new Audit
             {
                 AuditType = AuditType.Update,
-                EventType = CustomerEvent.NameUpdated,
+                EventType = EventType.CustomerNameUpdated,
                 Description = $"Company name was updated from `{oldName}` to `{newName}`.",
                 UserId = CurrentUser.Id
             };

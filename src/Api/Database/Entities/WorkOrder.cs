@@ -13,7 +13,7 @@ public class WorkOrder
     public long CustomerId { get; set; }
     public Customer? Customer { get; set; }
 
-    public ICollection<WorkOrderAudit>? AuditTrail { get; set; }
+    public ICollection<Audit>? AuditTrail { get; set; }
 
     public class Configuration : IEntityTypeConfiguration<WorkOrder>
     {

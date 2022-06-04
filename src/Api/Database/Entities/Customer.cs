@@ -10,7 +10,7 @@ public class Customer
     public string CompanyName { get; set; } = null!;
     public Location Location { get; set; } = new();
 
-    public ICollection<CustomerAudit>? AuditTrail { get; set; }
+    public ICollection<Audit>? AuditTrail { get; set; }
 
     public class Configuration : IEntityTypeConfiguration<Customer>
     {
