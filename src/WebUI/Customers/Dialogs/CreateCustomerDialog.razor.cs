@@ -8,33 +8,33 @@ using Microsoft.AspNetCore.Components;
 
 namespace Archie.WebUI.Customers.Dialogs;
 
-public partial class CreateCustomerDialog
+public class CreateCustomerDialogLauncher : ComponentBase
 {
-    [Inject] private ICustomerClient CustomerClient { get; set; } = default!;
     [Inject] private IModalService Modals { get; set; } = default!;
-    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
-
-    private bool IsSubmitting { get; set; }
-    private Form Model { get; } = new();
-
-    public CreateCustomerDialog()
-    {
-    }
-
-    public CreateCustomerDialog(IModalService modals)
-    {
-        Modals = modals;
-    }
 
     public IModalReference Show()
     {
         var options = new ModalOptions
         {
-            Animation = ModalAnimation.FadeInOut(0.5),
+            Animation = ModalAnimation.FadeIn(0.5),
             DisableBackgroundCancel = true
         };
 
         return Modals.Show<CreateCustomerDialog>("Create Customer", options);
+    }
+}
+
+public partial class CreateCustomerDialog
+{
+    [Inject] private ICustomerClient CustomerClient { get; set; } = default!;
+    [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
+
+    private bool IsSubmitting { get; set; }
+    private Form Model { get; } = new();
+
+    public Task Close()
+    {
+        return ModalInstance.CloseAsync();
     }
 
     private async Task Submit()
@@ -49,15 +49,6 @@ public partial class CreateCustomerDialog
 
         if (response.IsSuccessStatusCode)
             await ModalInstance.CloseAsync(ModalResult.Ok(response.Content!));
-    }
-
-    public static ModalOptions GetOptions()
-    {
-        return new ModalOptions
-        {
-            Animation = ModalAnimation.FadeInOut(0.5),
-            DisableBackgroundCancel = true
-        };
     }
 
     public class Form

@@ -1,6 +1,9 @@
 ﻿@page "/customers"
+@using Archie.WebUI.Customers.Dialogs
 
 <header class="d-flex justify-content-between align-items-center">
     <h3>Customer Search</h3>
     <button class="btn btn-success btn-sm" @onclick="LaunchCreateDialog">New Customer</button>
 </header>
+
+<CreateCustomerDialogLauncher @ref="DialogLauncher" />
