@@ -1,0 +1,20 @@
+﻿@if (HeaderContent != null)
+{
+    <header>
+        <div class="container-fluid">
+            @HeaderContent
+        </div>
+    </header>
+
+    <hr />
+
+    <section class="container-fluid"> 
+        @ChildContent
+    </section>
+}
+
+@code {
+
+    [Parameter] public RenderFragment? HeaderContent { get; set; }
+    [Parameter, EditorRequired] public RenderFragment ChildContent { get; set; } = default!;
+}

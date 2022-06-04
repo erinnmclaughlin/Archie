@@ -1,43 +1,43 @@
 ﻿@page "/customers"
 @using Archie.WebUI.Customers.Dialogs
 
-<PageTitle>Archie - Customer Search</PageTitle>
+@if (Customers == null)
+{
+    <Loading />
+}
+else
+{
+    <PageTitle>Archie - Customer Search</PageTitle>
 
-<header>
-    <div class="container-fluid">
-        <Breadcrumbs>
-            <Breadcrumb><a href="/">Home</a></Breadcrumb>
-            <Breadcrumb>Customers</Breadcrumb>
-        </Breadcrumbs>
+    <PageTemplate>
+        <HeaderContent>
+             <Breadcrumbs>
+                <Breadcrumb><a href="/">Home</a></Breadcrumb>
+                <Breadcrumb>Customers</Breadcrumb>
+            </Breadcrumbs>
 
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3>Customer Search</h3>
-            <button class="btn btn-success btn-sm" @onclick="LaunchCreateDialog">New Customer</button>
-        </div>
-    </div>
-</header>
-
-<hr />
-
-<section class="container-fluid">
-    @if (Customers == null)
-    {
-        <Loading />
-    }
-    else if (!Customers.Any())
-    {
-        <p>None found.</p>
-    }
-    else
-    {
-        <div class="list-group">
-            @foreach (var customer in Customers)
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3>Customer Search</h3>
+                <button class="btn btn-success btn-sm" @onclick="LaunchCreateDialog">New Customer</button>
+            </div>
+        </HeaderContent>
+        <ChildContent>
+            @if (!Customers.Any())
             {
-                <a href="customers/@customer.Id" class="list-group-item list-group-item-action">
-                    <h5 class="mb-1">@customer.CompanyName</h5>
-                    <small>@customer.Location</small>
-                </a>
+                <p>None found.</p>
             }
-        </div>
-    }
-</section>
+            else
+            {
+                <div class="list-group">
+                    @foreach (var customer in Customers)
+                    {
+                        <a href="customers/@customer.Id" class="list-group-item list-group-item-action">
+                            <h5 class="mb-1">@customer.CompanyName</h5>
+                            <small>@customer.Location</small>
+                        </a>
+                    }
+                </div>
+            }
+        </ChildContent>
+    </PageTemplate>
+}

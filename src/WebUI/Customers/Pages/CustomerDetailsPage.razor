@@ -1,40 +1,34 @@
 ﻿@page "/customers/{Id:long}"
 @using Archie.WebUI.Customers.Components
 
-<PageTitle>Archie - Customer Details</PageTitle>
-
-<header>
-    <div class="container-fluid">
-        <Breadcrumbs>
-            <Breadcrumb><a href="/">Home</a></Breadcrumb>
-            <Breadcrumb><a href="customers">Customers</a></Breadcrumb>
-            <Breadcrumb>Details</Breadcrumb>
-        </Breadcrumbs>
-
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3>Customer Details</h3>
-            <button class="btn btn-primary btn-sm" disabled="@(Customer == null)" @onclick="LaunchUpdateDialog">Edit Customer</button>
-        </div>
-    </div>
-</header>
-
-<hr />
-
-<section class="container-fluid"> 
-    @if (Customer == null)
-    {
+@if (Customer == null)
+{
+    <section class="container-fluid">
         <Loading />
-    }
-    else
-    {
-        <dl>
-            <dt>Company Name</dt>
-            <dd>@Customer.CompanyName</dd>
+    </section>
+}
+else
+{
+    <PageTitle>Archie - Customer Details</PageTitle>
 
-            <dt>Location</dt>
-            <dd>@Customer.Location</dd>
-        </dl>
+    <PageTemplate>
+        <HeaderContent>
+            <Breadcrumbs>
+                <Breadcrumb><a href="/">Home</a></Breadcrumb>
+                <Breadcrumb><a href="customers">Customers</a></Breadcrumb>
+                <Breadcrumb>Details</Breadcrumb>
+            </Breadcrumbs>
 
-        <CustomerAuditTrail @ref="AuditTrail" CustomerId="Id" />
-    }
-</section>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h4 class="mb-0">@Customer.CompanyName</h4>
+                    <p class="text-muted mb-0">@Customer.Location.ToString()</p>
+                </div>
+                <button class="btn btn-primary btn-sm" disabled="@(Customer == null)" @onclick="LaunchUpdateDialog">Edit Customer</button>
+            </div>
+        </HeaderContent>
+        <ChildContent>
+            <CustomerAuditTrail @ref="AuditTrail" CustomerId="Id" />
+        </ChildContent>
+    </PageTemplate>
+}
