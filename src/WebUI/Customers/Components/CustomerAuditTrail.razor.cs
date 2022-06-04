@@ -10,9 +10,23 @@ public partial class CustomerAuditTrail
 
     private GetCustomerAuditTrailResponse? AuditTrail { get; set; }
 
+    public async Task Refresh()
+    {
+        AuditTrail = null;
+        StateHasChanged();
+
+        await LoadAuditTrail();
+    }
+
     protected override async Task OnParametersSetAsync()
+    {
+        await LoadAuditTrail();
+    }
+
+    private async Task LoadAuditTrail()
     {
         var response = await CustomerClient.GetAuditTrailAsync(CustomerId);
         AuditTrail = response.Content;
+        StateHasChanged();
     }
 }

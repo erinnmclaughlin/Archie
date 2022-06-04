@@ -1,5 +1,6 @@
 ﻿using Archie.Shared.Customers.GetDetails;
 using Archie.Shared.Customers.Update;
+using Archie.WebUI.Customers.Components;
 using Archie.WebUI.Customers.Dialogs;
 using Archie.WebUI.Shared.Dialogs;
 using Microsoft.AspNetCore.Components;
@@ -13,6 +14,7 @@ public partial class CustomerDetailsPage
 
     [Parameter] public long Id { get; set; }
 
+    private CustomerAuditTrail? AuditTrail { get; set; }
     private GetCustomerDetailsResponse? Customer { get; set; }
 
     protected override async Task OnParametersSetAsync()
@@ -36,6 +38,8 @@ public partial class CustomerDetailsPage
         {
             Customer.CompanyName = newCustomer.CompanyName;
             Customer.Location = newCustomer.Location;
+
+            AuditTrail?.Refresh();
         }
     }
 }
