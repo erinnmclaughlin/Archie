@@ -1,4 +1,4 @@
-﻿using Archie.Shared.Customers;
+﻿using Archie.Shared.Audits;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

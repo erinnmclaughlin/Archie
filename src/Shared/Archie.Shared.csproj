@@ -9,4 +9,14 @@
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Customers\GetAll\" />
+    <Folder Include="Customers\GetDetails\" />
+    <Folder Include="Customers\Update\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.0.2" />
+  </ItemGroup>
 </Project>
