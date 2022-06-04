@@ -13,6 +13,6 @@ public class GetCustomerAuditTrailResponse : List<GetCustomerAuditTrailResponse.
         AddRange(audits);
     }
 
-    public record AuditDto(AuditType AuditType, EventType EventType, string Description, UserDto User);
+    public record AuditDto(AuditType AuditType, EventType EventType, string Description, DateTime Timestamp, UserDto User);
     public record UserDto(long Id, string FullName);
 }

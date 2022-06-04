@@ -1,1 +1,18 @@
-﻿
+﻿<h6>Audit Trail</h6>
+
+@if (AuditTrail == null)
+{
+    <Loading />
+}
+else
+{
+    <div class="list-group">
+        @foreach (var audit in AuditTrail)
+        {
+            <div class="list-group-item">
+                <h6 class="mb-1">@audit.Description</h6>
+                <small class="text-muted">@audit.User.FullName on @audit.Timestamp.</small>
+            </div>
+        }
+    </div>
+}

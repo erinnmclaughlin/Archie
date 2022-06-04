@@ -1,6 +1,7 @@
 ﻿using Archie.Shared.Customers;
 using Archie.Shared.Customers.Create;
 using Archie.Shared.Customers.GetAll;
+using Archie.Shared.Customers.GetAuditTrail;
 using Archie.Shared.Customers.GetDetails;
 using Archie.Shared.Customers.Update;
 using Refit;
@@ -20,4 +21,7 @@ public interface ICustomerClient
 
     [Patch(CustomerEndpoints.UpdateCustomer)]
     Task<IApiResponse<UpdateCustomerResponse>> UpdateAsync(long id, UpdateCustomerRequest request, CancellationToken ct = default);
+
+    [Get(CustomerEndpoints.GetAuditTrail)]
+    Task<IApiResponse<GetCustomerAuditTrailResponse>> GetAuditTrailAsync(long id, CancellationToken ct = default);
 }

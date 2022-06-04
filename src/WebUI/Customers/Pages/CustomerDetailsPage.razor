@@ -1,4 +1,5 @@
 ﻿@page "/customers/{Id:long}"
+@using Archie.WebUI.Customers.Components
 
 <PageTitle>Archie - Customer Details</PageTitle>
 
@@ -32,4 +33,6 @@ else
         <dt>Location</dt>
         <dd>@Customer.Location</dd>
     </dl>
+
+    <CustomerAuditTrail CustomerId="Id" />
 }
