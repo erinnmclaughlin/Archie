@@ -6,7 +6,7 @@ using Archie.Shared.Customers.Create;
 using Archie.Shared.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Archie.Api.Modules.Customers.Create;
+namespace Archie.Api.Modules.Customers;
 
 [ApiController]
 public class CreateCustomerModule : IModule
@@ -47,13 +47,13 @@ public class CreateCustomerModule : IModule
 
         return new CreateCustomerResponse
         (
-            customer.Id, 
-            customer.CompanyName, 
-            new Location 
-            { 
-                City = customer.City, 
-                Region = customer.Region, 
-                Country = customer.Country 
+            customer.Id,
+            customer.CompanyName,
+            new Location
+            {
+                City = customer.City,
+                Region = customer.Region,
+                Country = customer.Country
             }
         );
     }
