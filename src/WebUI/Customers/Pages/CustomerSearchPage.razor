@@ -3,17 +3,23 @@
 
 <PageTitle>Archie - Customer Search</PageTitle>
 
-<Breadcrumbs>
-    <Breadcrumb><a href="/">Home</a></Breadcrumb>
-    <Breadcrumb>Customers</Breadcrumb>
-</Breadcrumbs>
+<header>
+    <div class="container-fluid">
+        <Breadcrumbs>
+            <Breadcrumb><a href="/">Home</a></Breadcrumb>
+            <Breadcrumb>Customers</Breadcrumb>
+        </Breadcrumbs>
 
-<header class="d-flex justify-content-between align-items-center mb-3">
-    <h3>Customer Search</h3>
-    <button class="btn btn-success btn-sm" @onclick="LaunchCreateDialog">New Customer</button>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3>Customer Search</h3>
+            <button class="btn btn-success btn-sm" @onclick="LaunchCreateDialog">New Customer</button>
+        </div>
+    </div>
 </header>
 
-<section class="section">
+<hr />
+
+<section class="container-fluid">
     @if (Customers == null)
     {
         <Loading />

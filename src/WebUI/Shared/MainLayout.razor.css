@@ -8,3 +8,7 @@ main {
     flex: 1;
     background-color: #e5e7eb;
 }
+
+::deep hr {
+    background-color: #9ca3af;
+}

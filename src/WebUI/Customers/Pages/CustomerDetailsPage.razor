@@ -3,30 +3,38 @@
 
 <PageTitle>Archie - Customer Details</PageTitle>
 
-<Breadcrumbs>
-    <Breadcrumb><a href="/">Home</a></Breadcrumb>
-    <Breadcrumb><a href="customers">Customers</a></Breadcrumb>
-    <Breadcrumb>Details</Breadcrumb>
-</Breadcrumbs>
+<header>
+    <div class="container-fluid">
+        <Breadcrumbs>
+            <Breadcrumb><a href="/">Home</a></Breadcrumb>
+            <Breadcrumb><a href="customers">Customers</a></Breadcrumb>
+            <Breadcrumb>Details</Breadcrumb>
+        </Breadcrumbs>
 
-<header class="d-flex justify-content-between align-items-center mb-3">
-    <h3>Customer Details</h3>
-    <button class="btn btn-primary btn-sm" disabled="@(Customer == null)" @onclick="LaunchUpdateDialog">Edit Customer</button>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3>Customer Details</h3>
+            <button class="btn btn-primary btn-sm" disabled="@(Customer == null)" @onclick="LaunchUpdateDialog">Edit Customer</button>
+        </div>
+    </div>
 </header>
 
-@if (Customer == null)
-{
-    <Loading />
-}
-else
-{
-    <dl>
-        <dt>Company Name</dt>
-        <dd>@Customer.CompanyName</dd>
+<hr />
 
-        <dt>Location</dt>
-        <dd>@Customer.Location</dd>
-    </dl>
+<section class="container-fluid"> 
+    @if (Customer == null)
+    {
+        <Loading />
+    }
+    else
+    {
+        <dl>
+            <dt>Company Name</dt>
+            <dd>@Customer.CompanyName</dd>
 
-    <CustomerAuditTrail @ref="AuditTrail" CustomerId="Id" />
-}
+            <dt>Location</dt>
+            <dd>@Customer.Location</dd>
+        </dl>
+
+        <CustomerAuditTrail @ref="AuditTrail" CustomerId="Id" />
+    }
+</section>

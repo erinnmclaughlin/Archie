@@ -1,3 +1,7 @@
 ﻿.breadcrumb-item {
     cursor: default;
 }
+
+::deep a {
+    text-decoration: none;
+}
