@@ -1,17 +1,17 @@
-﻿@if (HeaderContent != null)
-{
-    <header>
-        <div class="container-fluid">
+﻿<div class="container ms-3">
+    @if (HeaderContent != null)
+    {
+        <header>
             @HeaderContent
-        </div>
-    </header>
+        </header>
 
-    <hr />
+        <hr />
+    }
 
-    <section class="container-fluid"> 
+    <section> 
         @ChildContent
     </section>
-}
+</div>
 
 @code {
 

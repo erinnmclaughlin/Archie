@@ -9,9 +9,9 @@ else
     <div class="list-group">
         @foreach (var audit in AuditTrail)
         {
-            <div class="list-group-item">
+            <div class="list-group-item" style="cursor: default;">
                 <h6 class="mb-0"><Markdown Value="@audit.Description" /></h6>
-                <small class="text-muted">@audit.User.FullName on @audit.Timestamp.</small>
+                <small class="text-muted">@audit.User.FullName on @audit.Timestamp.ToLocalTime().</small>
             </div>
         }
     </div>
