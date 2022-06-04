@@ -7,15 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Customers\GetDetails\**" />
-    <Compile Remove="Customers\Update\**" />
-    <EmbeddedResource Remove="Customers\GetDetails\**" />
-    <EmbeddedResource Remove="Customers\Update\**" />
-    <None Remove="Customers\GetDetails\**" />
-    <None Remove="Customers\Update\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
 

@@ -35,7 +35,7 @@ public class GetAllCustomersModule : IModule
                 (
                     c.Id,
                     c.CompanyName,
-                    new Location(c.City, c.Region, c.Country)
+                    c.Location
                 ))
                 .OrderBy(c => c.CompanyName)
                 .AsNoTracking();

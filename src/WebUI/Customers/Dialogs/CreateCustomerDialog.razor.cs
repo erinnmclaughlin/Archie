@@ -1,6 +1,7 @@
 ﻿using Archie.Shared.Customers;
 using Archie.Shared.Customers.Create;
 using Archie.Shared.ValueObjects;
+using Archie.WebUI.Shared.Dialogs;
 using Blazored.Modal;
 using Blazored.Modal.Services;
 using FluentValidation;
@@ -8,29 +9,18 @@ using Microsoft.AspNetCore.Components;
 
 namespace Archie.WebUI.Customers.Dialogs;
 
-public class CreateCustomerDialogLauncher : ComponentBase
-{
-    [Inject] private IModalService Modals { get; set; } = default!;
-
-    public IModalReference Show()
-    {
-        var options = new ModalOptions
-        {
-            Animation = ModalAnimation.FadeIn(0.5),
-            DisableBackgroundCancel = true
-        };
-
-        return Modals.Show<CreateCustomerDialog>("Create Customer", options);
-    }
-}
-
-public partial class CreateCustomerDialog
+public partial class CreateCustomerDialog : IDialog
 {
     [Inject] private ICustomerClient CustomerClient { get; set; } = default!;
     [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
 
     private bool IsSubmitting { get; set; }
     private Form Model { get; } = new();
+
+    protected override void OnInitialized()
+    {
+        ModalInstance.SetTitle("Create Customer");
+    }
 
     public Task Close()
     {

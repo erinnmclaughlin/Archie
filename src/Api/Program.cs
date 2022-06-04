@@ -1,5 +1,6 @@
 using Archie.Api.Common;
 using Archie.Api.Database;
+using Archie.Api.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ArchieContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ArchieDb")));
 builder.Services.AddScoped<IRepository, ArchieRepository>();
+
+builder.Services.AddApplicationModules();
 
 var app = builder.Build();
 

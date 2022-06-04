@@ -31,6 +31,11 @@ public class ArchieRepository : IRepository
         return ApplySpecification(spec).FirstOrDefaultAsync(ct);
     }
 
+    public ValueTask<T?> FindByIdAsync<T, TId>(TId id, CancellationToken ct) where T : class where TId : notnull
+    { 
+        return Db.Set<T>().FindAsync(new object[] { id }, ct);
+    }
+
     public Task<List<T>> ListAsync<T>(ISpecification<T> spec, CancellationToken ct) where T : class
     {
         return ApplySpecification(spec).ToListAsync(ct);

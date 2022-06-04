@@ -3,7 +3,6 @@ using Archie.Api.Database.Entities;
 using Archie.Shared.Audits;
 using Archie.Shared.Customers;
 using Archie.Shared.Customers.Create;
-using Archie.Shared.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Archie.Api.Modules.Customers;
@@ -11,10 +10,12 @@ namespace Archie.Api.Modules.Customers;
 [ApiController]
 public class CreateCustomerModule : IModule
 {
+    private AuditFactory Audits { get; }
     private IRepository Repository { get; }
 
-    public CreateCustomerModule(IRepository repository)
+    public CreateCustomerModule(AuditFactory audits, IRepository repository)
     {
+        Audits = audits;
         Repository = repository;
     }
 
@@ -26,20 +27,9 @@ public class CreateCustomerModule : IModule
         var customer = new Customer
         {
             CompanyName = request.CompanyName,
-            City = request.Location.City,
-            Region = request.Location.Region,
-            Country = request.Location.Country,
+            Location = request.Location,
 
-            AuditTrail = new List<CustomerAudit>
-            {
-                new CustomerAudit
-                {
-                    AuditType = AuditType.Create,
-                    Description = $"Customer `{request.CompanyName}` was created.",
-                    EventType = CustomerEvent.Created,
-                    UserId = 1 // TODO: Don't hard code this ish
-                }
-            }
+            AuditTrail = new List<CustomerAudit> { Audits.CustomerCreated(request.CompanyName) }
         };
 
         Repository.Add(customer);
@@ -49,12 +39,28 @@ public class CreateCustomerModule : IModule
         (
             customer.Id,
             customer.CompanyName,
-            new Location
-            {
-                City = customer.City,
-                Region = customer.Region,
-                Country = customer.Country
-            }
+            customer.Location
         );
+    }
+
+    public class AuditFactory
+    {
+        private ICurrentUserService CurrentUser { get; }
+
+        public AuditFactory(ICurrentUserService currentUser)
+        {
+            CurrentUser = currentUser;
+        }
+
+        public virtual CustomerAudit CustomerCreated(string companyName)
+        {
+            return new CustomerAudit
+            {
+                AuditType = AuditType.Create,
+                EventType = CustomerEvent.Created,
+                Description = $"Customer `{companyName}` was created.",
+                UserId = CurrentUser.Id
+            };
+        }
     }
 }

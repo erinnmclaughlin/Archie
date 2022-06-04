@@ -1,5 +1,6 @@
 using Archie.WebUI;
 using Archie.WebUI.Customers;
+using Archie.WebUI.Shared.Dialogs;
 using Blazored.Modal;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -10,6 +11,7 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddBlazoredModal();
+builder.Services.AddScoped<IDialogService, DialogService>();
 
 builder.Services.AddRefitClient<ICustomerClient>()
     .ConfigureHttpClient(x => x.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
