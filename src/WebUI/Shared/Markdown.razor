@@ -1,0 +1,9 @@
+﻿<div class="markdown">
+    @((MarkupString)Html)
+</div>
+
+@code {
+    private string Html => Markdig.Markdown.ToHtml(Value);
+
+    [Parameter, EditorRequired] public string Value { get; set; } = string.Empty;
+}
