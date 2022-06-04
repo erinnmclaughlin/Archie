@@ -45,7 +45,8 @@ namespace Archie.Api.Database.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ReferenceNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReferenceNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CustomerId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -56,59 +57,41 @@ namespace Archie.Api.Database.Migrations
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "CustomerAudits",
+                name: "Audits",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerId = table.Column<long>(type: "bigint", nullable: false),
+                    AuditType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<long>(type: "bigint", nullable: false)
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EventType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    CustomerId = table.Column<long>(type: "bigint", nullable: true),
+                    WorkOrderId = table.Column<long>(type: "bigint", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CustomerAudits", x => x.Id);
+                    table.PrimaryKey("PK_Audits", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CustomerAudits_Customers_CustomerId",
+                        name: "FK_Audits_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CustomerAudits_Users_UserId",
+                        name: "FK_Audits_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "WorkOrderAudits",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    WorkOrderId = table.Column<long>(type: "bigint", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<long>(type: "bigint", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_WorkOrderAudits", x => x.Id);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_WorkOrderAudits_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_WorkOrderAudits_WorkOrders_WorkOrderId",
+                        name: "FK_Audits_WorkOrders_WorkOrderId",
                         column: x => x.WorkOrderId,
                         principalTable: "WorkOrders",
                         principalColumn: "Id",
@@ -121,14 +104,24 @@ namespace Archie.Api.Database.Migrations
                 values: new object[] { 1L, "Frank", "Stein" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CustomerAudits_CustomerId",
-                table: "CustomerAudits",
+                name: "IX_Audits_AuditType",
+                table: "Audits",
+                column: "AuditType");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Audits_CustomerId",
+                table: "Audits",
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CustomerAudits_UserId",
-                table: "CustomerAudits",
+                name: "IX_Audits_UserId",
+                table: "Audits",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Audits_WorkOrderId",
+                table: "Audits",
+                column: "WorkOrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Customers_CompanyName",
@@ -136,28 +129,26 @@ namespace Archie.Api.Database.Migrations
                 column: "CompanyName");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WorkOrderAudits_UserId",
-                table: "WorkOrderAudits",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_WorkOrderAudits_WorkOrderId",
-                table: "WorkOrderAudits",
-                column: "WorkOrderId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_WorkOrders_CustomerId",
                 table: "WorkOrders",
                 column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkOrders_ReferenceNumber",
+                table: "WorkOrders",
+                column: "ReferenceNumber",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkOrders_Status",
+                table: "WorkOrders",
+                column: "Status");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CustomerAudits");
-
-            migrationBuilder.DropTable(
-                name: "WorkOrderAudits");
+                name: "Audits");
 
             migrationBuilder.DropTable(
                 name: "Users");

@@ -6,6 +6,7 @@ namespace Archie.Api.Database;
 
 public class ArchieContext : DbContext
 {
+    public DbSet<Audit> Audits => Set<Audit>();
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<CustomerAudit> CustomerAudits => Set<CustomerAudit>();
     public DbSet<User> Users => Set<User>();

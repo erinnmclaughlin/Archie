@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Archie.Api.Database.Migrations
 {
     [DbContext(typeof(ArchieContext))]
-    [Migration("20220603233730_InitialCreate")]
+    [Migration("20220604001322_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,43 @@ namespace Archie.Api.Database.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("Archie.Api.Database.Entities.Audit", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<string>("AuditType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Audits");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Audit");
+                });
 
             modelBuilder.Entity("Archie.Api.Database.Entities.Customer", b =>
                 {
@@ -58,37 +95,6 @@ namespace Archie.Api.Database.Migrations
                     b.HasIndex("CompanyName");
 
                     b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("Archie.Api.Database.Entities.CustomerAudit", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<long>("CustomerId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime>("Timestamp")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("CustomerAudits");
                 });
 
             modelBuilder.Entity("Archie.Api.Database.Entities.User", b =>
@@ -135,44 +141,88 @@ namespace Archie.Api.Database.Migrations
 
                     b.Property<string>("ReferenceNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
 
+                    b.HasIndex("ReferenceNumber")
+                        .IsUnique();
+
+                    b.HasIndex("Status");
+
                     b.ToTable("WorkOrders");
+                });
+
+            modelBuilder.Entity("Archie.Api.Database.Entities.CustomerAudit", b =>
+                {
+                    b.HasBaseType("Archie.Api.Database.Entities.Audit");
+
+                    b.Property<long>("CustomerId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("EventType")
+                        .IsRequired()
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("EventType");
+
+                    b.HasIndex("AuditType");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasDiscriminator().HasValue("CustomerAudit");
                 });
 
             modelBuilder.Entity("Archie.Api.Database.Entities.WorkOrderAudit", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                    b.HasBaseType("Archie.Api.Database.Entities.Audit");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<string>("Description")
+                    b.Property<string>("EventType")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime>("Timestamp")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("EventType");
 
                     b.Property<long>("WorkOrderId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("AuditType");
 
                     b.HasIndex("WorkOrderId");
 
-                    b.ToTable("WorkOrderAudits");
+                    b.HasDiscriminator().HasValue("WorkOrderAudit");
+                });
+
+            modelBuilder.Entity("Archie.Api.Database.Entities.Audit", b =>
+                {
+                    b.HasOne("Archie.Api.Database.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Archie.Api.Database.Entities.WorkOrder", b =>
+                {
+                    b.HasOne("Archie.Api.Database.Entities.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("Archie.Api.Database.Entities.CustomerAudit", b =>
@@ -183,43 +233,16 @@ namespace Archie.Api.Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Archie.Api.Database.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Archie.Api.Database.Entities.WorkOrder", b =>
-                {
-                    b.HasOne("Archie.Api.Database.Entities.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("Archie.Api.Database.Entities.WorkOrderAudit", b =>
                 {
-                    b.HasOne("Archie.Api.Database.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Archie.Api.Database.Entities.WorkOrder", "WorkOrder")
                         .WithMany("AuditTrail")
                         .HasForeignKey("WorkOrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
 
                     b.Navigation("WorkOrder");
                 });

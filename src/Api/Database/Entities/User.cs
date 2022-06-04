@@ -15,10 +15,10 @@ public class User
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.HasData(GetSeedData());
+
             builder.Property(x => x.FirstName).HasMaxLength(100).IsRequired();
             builder.Property(x => x.LastName).HasMaxLength(100).IsRequired();
-
-            builder.HasData(GetSeedData());
         }
 
         public static List<User> GetSeedData()
