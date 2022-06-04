@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ArchieContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ArchieDb")));
-builder.Services.AddScoped<IRepository, Repository>();
+builder.Services.AddScoped<IRepository, ArchieRepository>();
 
 var app = builder.Build();
 

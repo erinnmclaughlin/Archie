@@ -1,16 +1,16 @@
 ﻿using Ardalis.Specification.EntityFrameworkCore;
 using Ardalis.Specification;
-using Archie.Api.Database;
 using Microsoft.EntityFrameworkCore;
+using Archie.Api.Common;
 
-namespace Archie.Api.Common;
+namespace Archie.Api.Database;
 
-public class Repository : IRepository
+public class ArchieRepository : IRepository
 {
     private ArchieContext Db { get; }
     private ISpecificationEvaluator Evaluator { get; }
 
-    public Repository(ArchieContext db)
+    public ArchieRepository(ArchieContext db)
     {
         Db = db;
         Evaluator = SpecificationEvaluator.Default;
