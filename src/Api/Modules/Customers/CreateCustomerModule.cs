@@ -18,7 +18,7 @@ public class CreateCustomerModule : IModule
         Repository = repository;
     }
 
-    [HttpPost(Endpoints.CreateCustomer)]
+    [HttpPost(CustomerEndpoints.CreateCustomer)]
     public async Task<CreateCustomerResponse> Create(CreateCustomerRequest request, CancellationToken ct)
     {
         request.Validate();

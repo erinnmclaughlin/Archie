@@ -1,6 +1,6 @@
 ﻿namespace Archie.Shared.Customers;
 
-public static class Endpoints
+public static class CustomerEndpoints
 {
     public const string CreateCustomer = "/api/customers";
     public const string GetAllCustomers = "/api/customers";

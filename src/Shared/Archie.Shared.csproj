@@ -7,13 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <SupportedPlatform Include="browser" />
+    <Compile Remove="Customers\GetAll\**" />
+    <Compile Remove="Customers\GetDetails\**" />
+    <Compile Remove="Customers\Update\**" />
+    <EmbeddedResource Remove="Customers\GetAll\**" />
+    <EmbeddedResource Remove="Customers\GetDetails\**" />
+    <EmbeddedResource Remove="Customers\Update\**" />
+    <None Remove="Customers\GetAll\**" />
+    <None Remove="Customers\GetDetails\**" />
+    <None Remove="Customers\Update\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Customers\GetAll\" />
-    <Folder Include="Customers\GetDetails\" />
-    <Folder Include="Customers\Update\" />
+    <SupportedPlatform Include="browser" />
   </ItemGroup>
 
   <ItemGroup>
