@@ -1,4 +1,5 @@
 ﻿using Archie.Shared.Customers.GetDetails;
+using Archie.Shared.Customers.Update;
 using Archie.WebUI.Customers.Dialogs;
 using Archie.WebUI.Shared.Dialogs;
 using Microsoft.AspNetCore.Components;
@@ -29,6 +30,12 @@ public partial class CustomerDetailsPage
             throw new InvalidOperationException("Customer must be loaded to perform this action.");
 
         var parameters = new UpdateCustomerDialog.DialogParameters(Customer.Id, Customer.CompanyName, Customer.Location);
-        await DialogService.Show<UpdateCustomerDialog, UpdateCustomerDialog.DialogParameters>(parameters).Result;
+        var result = await DialogService.Show<UpdateCustomerDialog, UpdateCustomerDialog.DialogParameters>(parameters).Result;
+
+        if (result.Data is UpdateCustomerResponse newCustomer)
+        {
+            Customer.CompanyName = newCustomer.CompanyName;
+            Customer.Location = newCustomer.Location;
+        }
     }
 }

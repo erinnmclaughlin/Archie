@@ -18,3 +18,18 @@
     <h3>Customer Details</h3>
     <button class="btn btn-primary btn-sm" disabled="@(Customer == null)" @onclick="LaunchUpdateDialog">Edit Customer</button>
 </header>
+
+@if (Customer == null)
+{
+    <Loading />
+}
+else
+{
+    <dl>
+        <dt>Company Name</dt>
+        <dd>@Customer.CompanyName</dd>
+
+        <dt>Location</dt>
+        <dd>@Customer.Location</dd>
+    </dl>
+}

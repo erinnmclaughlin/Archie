@@ -20,8 +20,7 @@
 <section class="section">
     @if (Customers == null)
     {
-        <span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>
-        <span>Loading...</span>
+        <Loading />
     }
     else if (!Customers.Any())
     {
