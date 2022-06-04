@@ -3,41 +3,39 @@
 
 <PageTitle>Archie - Customer Search</PageTitle>
 
-<section class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="#">Home</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">Customers</li>
-        </ol>
-    </nav>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">Home</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Customers</li>
+    </ol>
+</nav>
 
-    <header class="d-flex justify-content-between align-items-center mb-3">
-        <h3>Customer Search</h3>
-        <button class="btn btn-success btn-sm" @onclick="LaunchCreateDialog">New Customer</button>
-    </header>
+<header class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Customer Search</h3>
+    <button class="btn btn-success btn-sm" @onclick="LaunchCreateDialog">New Customer</button>
+</header>
 
-    <section class="section">
-        @if (Customers == null)
-        {
-            <Loading />
-        }
-        else if (!Customers.Any())
-        {
-            <p>None found.</p>
-        }
-        else
-        {
-            <div class="list-group">
-                @foreach (var customer in Customers)
-                {
-                    <a href="customers/@customer.Id" class="list-group-item list-group-item-action">
-                        <h5 class="mb-1">@customer.CompanyName</h5>
-                        <small>@customer.Location</small>
-                    </a>
-                }
-            </div>
-        }
-    </section>
+<section class="section">
+    @if (Customers == null)
+    {
+        <Loading />
+    }
+    else if (!Customers.Any())
+    {
+        <p>None found.</p>
+    }
+    else
+    {
+        <div class="list-group">
+            @foreach (var customer in Customers)
+            {
+                <a href="customers/@customer.Id" class="list-group-item list-group-item-action">
+                    <h5 class="mb-1">@customer.CompanyName</h5>
+                    <small>@customer.Location</small>
+                </a>
+            }
+        </div>
+    }
 </section>

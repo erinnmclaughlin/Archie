@@ -1,11 +1,13 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="page">
-    <div class="sidebar bg-light p-3">
-        <NavMenu />
-    </div>
+        
+    <Sidebar />
 
     <main>
-        @Body
+        <NavMenu />
+        <section class="container-fluid">
+            @Body
+        </section>
     </main>
 </div>
