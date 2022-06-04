@@ -1,0 +1,29 @@
+﻿<EditForm Model="Model" OnValidSubmit="Submit" style="width: 500px">
+
+    <FluentValidationValidator />
+
+    <div class="mb-3">
+        <label for="name" class="form-label">Company Name</label>
+        <InputText @bind-Value="Model.CompanyName" class="form-control" id="name" placeholder="e.g., ABC Company" />
+        <ValidationMessage For="() => Model.CompanyName" />
+    </div>
+
+    <div class="mb-3">        
+        <label for="city" class="form-label">City</label>
+        <InputText @bind-Value="Model.City" class="form-control" id="city" placeholder="e.g., Boston" />
+        <ValidationMessage For="() => Model.City" />
+    </div>
+    
+    <div class="mb-3">        
+        <label for="region" class="form-label">Region</label>
+        <InputText @bind-Value="Model.Region" class="form-control" id="region" placeholder="e.g., MA" />
+        <ValidationMessage For="() => Model.Region" />
+    </div>
+    
+    <div class="mb-3">        
+        <label for="country" class="form-label">Country</label>
+        <InputText @bind-Value="Model.Country" class="form-control" id="country" placeholder="e.g., Boston" />
+        <ValidationMessage For="() => Model.Country" />
+    </div>
+
+</EditForm>
