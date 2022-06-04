@@ -1,7 +1,18 @@
 ﻿@page "/customers"
 @using Archie.WebUI.Customers.Dialogs
 
-<header class="d-flex justify-content-between align-items-center">
+<PageTitle>Archie - Customer Search</PageTitle>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">Home</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Customers</li>
+    </ol>
+</nav>
+
+<header class="d-flex justify-content-between align-items-center mb-3">
     <h3>Customer Search</h3>
     <button class="btn btn-success btn-sm" @onclick="LaunchCreateDialog">New Customer</button>
 </header>
@@ -9,7 +20,8 @@
 <section class="section">
     @if (Customers == null)
     {
-        <p>Loading...</p>
+        <span class="spinner-border text-primary spinner-border-sm" role="status" aria-hidden="true"></span>
+        <span>Loading...</span>
     }
     else if (!Customers.Any())
     {
@@ -17,12 +29,14 @@
     }
     else
     {
-        <dl>
-            @foreach(var customer in Customers)
+        <div class="list-group">
+            @foreach (var customer in Customers)
             {
-                <dt>@customer.CompanyName</dt>
-                <dd class="text-muted">@customer.Location.City @customer.Location.Region @customer.Location.Country</dd>
+                <a href="customers/@customer.Id" class="list-group-item list-group-item-action">
+                    <h5 class="mb-1">@customer.CompanyName</h5>
+                    <small>@customer.Location</small>
+                </a>
             }
-        </dl>
+        </div>
     }
 </section>

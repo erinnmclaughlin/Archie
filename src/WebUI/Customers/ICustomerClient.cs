@@ -1,6 +1,7 @@
 ﻿using Archie.Shared.Customers;
 using Archie.Shared.Customers.Create;
 using Archie.Shared.Customers.GetAll;
+using Archie.Shared.Customers.GetDetails;
 using Archie.Shared.Customers.Update;
 using Refit;
 
@@ -13,6 +14,9 @@ public interface ICustomerClient
 
     [Get(CustomerEndpoints.GetAllCustomers)]
     Task<IApiResponse<GetAllCustomersResponse>> GetAllAsync(CancellationToken ct = default);
+
+    [Get(CustomerEndpoints.GetCustomerDetails)]
+    Task<IApiResponse<GetCustomerDetailsResponse>> GetDetailsAsync(long id, CancellationToken ct = default);
 
     [Patch(CustomerEndpoints.UpdateCustomer)]
     Task<IApiResponse<UpdateCustomerResponse>> UpdateAsync(long id, UpdateCustomerRequest request, CancellationToken ct = default);

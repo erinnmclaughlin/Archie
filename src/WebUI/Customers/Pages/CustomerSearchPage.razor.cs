@@ -1,5 +1,4 @@
-﻿using Archie.Shared.Customers.Create;
-using Archie.Shared.Customers.GetAll;
+﻿using Archie.Shared.Customers.GetAll;
 using Archie.WebUI.Customers.Dialogs;
 using Archie.WebUI.Shared.Dialogs;
 using Microsoft.AspNetCore.Components;
@@ -21,12 +20,6 @@ public partial class CustomerSearchPage
 
     private async Task LaunchCreateDialog()
     {
-        var dialog = DialogService.Show<CreateCustomerDialog>();
-        var result = await dialog.Result;
-
-        if (result.Data is CreateCustomerResponse response)
-        {
-            Customers?.Add(new GetAllCustomersResponse.CustomerDto(response.Id, response.CompanyName, response.Location));
-        }
+        await DialogService.Show<CreateCustomerDialog>().Result;
     }
 }

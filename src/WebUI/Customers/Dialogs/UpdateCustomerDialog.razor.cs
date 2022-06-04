@@ -16,7 +16,17 @@ public partial class UpdateCustomerDialog : IDialog<UpdateCustomerDialog.DialogP
     [Parameter] public DialogParameters Parameters { get; set; } = default!;
 
     private bool IsSubmitting { get; set; }
-    private Form Model { get; } = default!;
+    private Form Model { get; } = new();
+
+    protected override void OnInitialized()
+    {
+        ModalInstance.SetTitle("Update Customer");
+
+        Model.CompanyName = Parameters.DefaultForm.CompanyName;
+        Model.City = Parameters.DefaultForm.City;
+        Model.Country = Parameters.DefaultForm.Country;
+        Model.Region = Parameters.DefaultForm.Region;
+    }
 
     public Task Close()
     {
@@ -56,12 +66,16 @@ public partial class UpdateCustomerDialog : IDialog<UpdateCustomerDialog.DialogP
         public string Region { get; set; } = string.Empty;
         public string Country { get; set; } = string.Empty;
 
+        public Form()
+        {
+        }
+
         public Form(string companyName, Location location)
         {
             CompanyName = companyName;
-            City = location.City;
-            Region = location.Region;
-            Country = location.Country;
+            City = location.City ?? string.Empty;
+            Region = location.Region ?? string.Empty;
+            Country = location.Country ?? string.Empty;
         }
 
         public class Validator : AbstractValidator<Form>

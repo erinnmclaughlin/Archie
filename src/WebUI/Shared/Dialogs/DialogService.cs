@@ -31,7 +31,7 @@ public class DialogService : IDialogService
         return Modals.Show<TDialog>(string.Empty, DefaultOptions);
     }
 
-    public IModalReference Show<TDialog, TParameters>(TParameters parameters) where TDialog : IDialog
+    public IModalReference Show<TDialog, TParameters>(TParameters parameters) where TDialog : IDialog<TParameters>
     {
         var modalParameters = new ModalParameters();
         modalParameters.Add("Parameters", parameters);

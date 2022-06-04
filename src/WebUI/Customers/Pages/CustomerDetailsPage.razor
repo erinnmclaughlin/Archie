@@ -1,0 +1,20 @@
+﻿@page "/customers/{Id:long}"
+
+<PageTitle>Archie - Customer Details</PageTitle>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">Home</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="customers">Customers</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Details</li>
+    </ol>
+</nav>
+
+<header class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Customer Details</h3>
+    <button class="btn btn-primary btn-sm" disabled="@(Customer == null)" @onclick="LaunchUpdateDialog">Edit Customer</button>
+</header>

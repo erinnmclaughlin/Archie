@@ -3,7 +3,6 @@ using Archie.Shared.Customers.Create;
 using Archie.Shared.ValueObjects;
 using Archie.WebUI.Shared.Dialogs;
 using Blazored.Modal;
-using Blazored.Modal.Services;
 using FluentValidation;
 using Microsoft.AspNetCore.Components;
 
@@ -12,6 +11,7 @@ namespace Archie.WebUI.Customers.Dialogs;
 public partial class CreateCustomerDialog : IDialog
 {
     [Inject] private ICustomerClient CustomerClient { get; set; } = default!;
+    [Inject] private NavigationManager Navigation { get; set; } = default!;
     [CascadingParameter] BlazoredModalInstance ModalInstance { get; set; } = default!;
 
     private bool IsSubmitting { get; set; }
@@ -37,8 +37,11 @@ public partial class CreateCustomerDialog : IDialog
         var request = new CreateCustomerRequest(Model.CompanyName, new Location(Model.City, Model.Region, Model.Country));
         var response = await CustomerClient.CreateAsync(request);
 
-        if (response.IsSuccessStatusCode)
-            await ModalInstance.CloseAsync(ModalResult.Ok(response.Content!));
+        if (response.IsSuccessStatusCode && response.Content != null)
+        {
+            Navigation.NavigateTo($"customers/{response.Content.Id}");
+            await ModalInstance.CloseAsync();
+        }
     }
 
     public class Form
