@@ -35,12 +35,7 @@ public class CreateCustomerModule : IModule
         Repository.Add(customer);
         await Repository.SaveChangesAsync(ct);
 
-        return new CreateCustomerResponse
-        (
-            customer.Id,
-            customer.CompanyName,
-            customer.Location
-        );
+        return new CreateCustomerResponse(customer.Id);
     }
 
     public class AuditFactory

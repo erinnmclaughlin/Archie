@@ -1,5 +1,6 @@
 ﻿using Archie.Api.Common;
 using Archie.Api.Modules.Customers;
+using Archie.Api.Modules.WorkOrders;
 using System.Reflection;
 
 namespace Archie.Api.DependencyInjection;
@@ -18,6 +19,7 @@ public static class RegisterModules
         services.AddScoped<ICurrentUserService, DumbCurrentUserService>();
         services.AddScoped<CreateCustomerModule.AuditFactory>();
         services.AddScoped<UpdateCustomerModule.AuditFactory>();
+        services.AddScoped<CreateWorkOrderModule.AuditFactory>();
 
         return services;
     }

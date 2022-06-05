@@ -7,6 +7,7 @@ namespace Archie.Api.Database.Entities;
 public class WorkOrder
 {
     public long Id { get; set; }
+    public DateTime? DueDate { get; set; }
     public string ReferenceNumber { get; set; } = string.Empty;
     public WorkOrderStatus Status { get; set; }
 

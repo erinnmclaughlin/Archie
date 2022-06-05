@@ -13,8 +13,4 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="10.4.0" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="WorkOrders\Create\" />
-  </ItemGroup>
 </Project>

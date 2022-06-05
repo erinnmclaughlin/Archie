@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Archie.Api.Modules.WorkOrders;
 
 [ApiController]
-public class GetAllWorkOrdersModule
+public class GetAllWorkOrdersModule : IModule
 {
     private IRepository Repository { get; }
 
