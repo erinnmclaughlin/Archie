@@ -1,0 +1,25 @@
+﻿@using Archie.Shared.WorkOrders
+
+<span class="badge @BadgeColor @Class">@BadgeText</span>
+
+@code {
+    [Parameter] public string Class { get; set; } = string.Empty;
+    [Parameter, EditorRequired] public WorkOrderStatus Status { get; set; }
+
+    private string BadgeColor => Status switch
+    {
+        WorkOrderStatus.Approved => "bg-primary",
+        WorkOrderStatus.Canceled => "bg-danger",
+        WorkOrderStatus.Completed => "bg-success",
+        WorkOrderStatus.Draft => "bg-secondary",
+        WorkOrderStatus.PendingReview => "bg-warning",
+        WorkOrderStatus.Rejected => "bg-danger",
+        _ => "bg-secondary"
+    };
+
+    private string BadgeText => Status switch
+    {
+        WorkOrderStatus.PendingReview => "bg-warning",
+        _ => Status.ToString()
+    };
+}
