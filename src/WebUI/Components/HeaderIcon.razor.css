@@ -6,8 +6,9 @@
     background-color: white;
 }
 
-    .icon {
+    .icon-container > .icon {
         margin-left: auto;
         margin-right: auto;
         font-size: 18px;
+        color: #ea580c;
     }

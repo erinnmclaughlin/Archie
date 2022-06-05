@@ -6,7 +6,7 @@
 }
 else
 {
-    <PageTemplate Title="Work Order Search" Icon="fa-solid fa-file">        
+    <PageTemplate Title="Work Orders" Icon="fa-solid fa-file">        
         <BreadcrumbContent>
             <Breadcrumb><a href="/">Home</a></Breadcrumb>
             <Breadcrumb>Work Orders</Breadcrumb>
@@ -27,8 +27,10 @@ else
                         <a href="work-orders/@workOrder.Id" class="list-group-item list-group-item-action d-flex align-items-center">
                             <WorkOrderStatusBadge Status="@workOrder.Status" />
                             <div class="ms-3">
-                                <h6 class="mb-0">@workOrder.Customer.CompanyName</h6>
-                                <WorkOrderReferenceNumber Value="@workOrder.ReferenceNumber" />
+                                <h6 class="mb-0 text-primary">@workOrder.Customer.CompanyName</h6>
+                                <small class="text-muted">
+                                    <WorkOrderReferenceNumber Value="@workOrder.ReferenceNumber" />
+                                </small>
                             </div>
                         </a>
                     }

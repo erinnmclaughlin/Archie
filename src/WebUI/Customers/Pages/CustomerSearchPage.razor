@@ -6,7 +6,7 @@
 }
 else
 {
-    <PageTemplate Title="Customer Search" Icon="fa-solid fa-building">
+    <PageTemplate Title="Customers" Icon="fa-solid fa-building">
         <BreadcrumbContent>
             <Breadcrumb><a href="/">Home</a></Breadcrumb>
             <Breadcrumb>Customers</Breadcrumb>
@@ -25,8 +25,8 @@ else
                     @foreach (var customer in Customers)
                     {
                         <a href="customers/@customer.Id" class="list-group-item list-group-item-action">
-                            <h5 class="mb-1">@customer.CompanyName</h5>
-                            <small>@customer.Location</small>
+                            <h6 class="mb-0 text-primary">@customer.CompanyName</h6>
+                            <small class="text-muted">@customer.Location</small>
                         </a>
                     }
                 </div>
