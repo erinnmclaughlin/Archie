@@ -1,4 +1,5 @@
 using Archie.WebUI;
+using Archie.WebUI.AuditTrails;
 using Archie.WebUI.Customers;
 using Archie.WebUI.Shared.Dialogs;
 using Archie.WebUI.WorkOrders;
@@ -13,6 +14,9 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddBlazoredModal();
 builder.Services.AddScoped<IDialogService, DialogService>();
+
+builder.Services.AddRefitClient<IAuditTrailClient>()
+    .ConfigureHttpClient(x => x.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
 
 builder.Services.AddRefitClient<ICustomerClient>()
     .ConfigureHttpClient(x => x.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));

@@ -1,13 +1,11 @@
-﻿<h6>Audit Trail</h6>
-
-@if (AuditTrail == null)
+﻿@if (Activity == null)
 {
     <Loading />
 }
 else
 {
     <AuditTrail>
-        @foreach (var audit in AuditTrail)
+        @foreach (var audit in Activity)
         {
             <AuditItem AuditType="audit.AuditType"
                        Description="@audit.Description"
@@ -16,7 +14,7 @@ else
                        User="@audit.User.FullName">
             
                 <div class="ms-auto align-self-center">
-                    @foreach (var customer in audit.RelatedCustomers.Where(c => c.Id != CustomerId))
+                    @foreach (var customer in audit.RelatedCustomers)
                     {
                         <a href="customers/@customer.Id" target="_blank" class="btn btn-sm btn-outline-primary">
                             <i class="fas fa-external-link" /> <span>@customer.CompanyName</span>
