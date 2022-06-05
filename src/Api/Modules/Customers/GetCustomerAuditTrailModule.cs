@@ -30,16 +30,6 @@ public class GetCustomerAuditTrailModule : IModule
     {
         public Specification(long customerId)
         {
-            var eventTypes = new EventType[]
-            {
-                EventType.CustomerCreated,
-                EventType.CustomerLocationUpdated,
-                EventType.CustomerNameUpdated,
-                EventType.WorkOrderCreated,
-                EventType.WorkOrderCanceled,
-                EventType.WorkOrderCompleted
-            };
-
             Query
                 .Select(a => new GetCustomerAuditTrailResponse.AuditDto
                 (
@@ -56,14 +46,7 @@ public class GetCustomerAuditTrailModule : IModule
                 .Include(a => a.Customers!)
                 .Include(a => a.WorkOrders!)
                 .Include(a => a.User!)
-                .Where
-                (
-                    a => eventTypes.Contains(a.EventType) && 
-                    (
-                        a.Customers!.Any(c => c.Id == customerId) || 
-                        a.WorkOrders!.Any(wo => wo.CustomerId == customerId)
-                    )
-                )
+                .Where(a => a.Customers!.Any(c => c.Id == customerId))
                 .OrderByDescending(a => a.Timestamp)
                 .AsSplitQuery()
                 .AsNoTracking();
