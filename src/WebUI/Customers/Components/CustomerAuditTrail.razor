@@ -9,9 +9,15 @@ else
     <div class="list-group">
         @foreach (var audit in AuditTrail)
         {
-            <div class="list-group-item" style="cursor: default;">
-                <h6 class="mb-0"><Markdown Value="@audit.Description" /></h6>
-                <small class="text-muted">@audit.User.FullName on @audit.Timestamp.ToLocalTime().</small>
+            <div class="list-group-item d-flex ps-0" style="cursor: default;">
+                <div class="icon px-3 align-self-center opacity-75">
+                    <i class="@GetIcon(audit.AuditType, audit.EventType) fa-xl" />
+                </div>
+                <div>
+                    <h6 class="mb-0"><Markdown Value="@audit.Description" /></h6>
+                    <small class="text-muted">@audit.User.FullName on @audit.Timestamp.ToLocalTime().</small>
+                </div>
+                
             </div>
         }
     </div>

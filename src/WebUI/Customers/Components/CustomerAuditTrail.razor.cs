@@ -1,4 +1,5 @@
-﻿using Archie.Shared.Customers.GetAuditTrail;
+﻿using Archie.Shared.Audits;
+using Archie.Shared.Customers.GetAuditTrail;
 using Microsoft.AspNetCore.Components;
 
 namespace Archie.WebUI.Customers.Components;
@@ -28,5 +29,43 @@ public partial class CustomerAuditTrail
         var response = await CustomerClient.GetAuditTrailAsync(CustomerId);
         AuditTrail = response.Content;
         StateHasChanged();
+    }
+
+    private static string GetIcon(AuditType auditType, EventType eventType)
+    {
+        if (auditType == AuditType.Create)
+        {
+            return "text-success " + eventType switch
+            {
+                EventType.CustomerCreated => "fa-solid fa-user-plus",
+                EventType.CustomerLocationUpdated => "fa-solid fa-earth-americas",
+                EventType.CustomerNameUpdated => "fa-solid fa-user-tag",
+                _ => "fa-solid fa-plus"
+            };
+        }
+
+        if (auditType == AuditType.Update)
+        {
+            return "text-primary " + eventType switch
+            {
+                EventType.CustomerCreated => "fa-solid fa-user-plus",
+                EventType.CustomerLocationUpdated => "fa-solid fa-earth-americas",
+                EventType.CustomerNameUpdated => "fa-solid fa-user-tag",
+                _ => "fa-solid fa-pencil-alt"
+            };
+        }
+
+        if (auditType == AuditType.Delete)
+        {
+            return "text-danger " + eventType switch
+            {
+                EventType.CustomerCreated => "fa-solid fa-user-plus",
+                EventType.CustomerLocationUpdated => "fa-solid fa-earth-americas",
+                EventType.CustomerNameUpdated => "fa-solid fa-user-tag",
+                _ => "fa-solid fa-pencil-alt"
+            };
+        }
+
+        return "fa-solid fa-plus text-muted";
     }
 }
