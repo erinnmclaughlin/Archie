@@ -38,8 +38,7 @@ public partial class CustomerAuditTrail
             return "text-success " + eventType switch
             {
                 EventType.CustomerCreated => "fa-solid fa-user-plus",
-                EventType.CustomerLocationUpdated => "fa-solid fa-earth-americas",
-                EventType.CustomerNameUpdated => "fa-solid fa-user-tag",
+                EventType.WorkOrderCreated => "fa-solid fa-file-circle-plus",
                 _ => "fa-solid fa-plus"
             };
         }
@@ -48,7 +47,6 @@ public partial class CustomerAuditTrail
         {
             return "text-primary " + eventType switch
             {
-                EventType.CustomerCreated => "fa-solid fa-user-plus",
                 EventType.CustomerLocationUpdated => "fa-solid fa-earth-americas",
                 EventType.CustomerNameUpdated => "fa-solid fa-user-tag",
                 _ => "fa-solid fa-pencil-alt"
@@ -59,10 +57,7 @@ public partial class CustomerAuditTrail
         {
             return "text-danger " + eventType switch
             {
-                EventType.CustomerCreated => "fa-solid fa-user-plus",
-                EventType.CustomerLocationUpdated => "fa-solid fa-earth-americas",
-                EventType.CustomerNameUpdated => "fa-solid fa-user-tag",
-                _ => "fa-solid fa-pencil-alt"
+                _ => "fa-solid fa-trash-alt"
             };
         }
 

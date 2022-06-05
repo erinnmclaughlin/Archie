@@ -1,0 +1,33 @@
+﻿@page "/work-orders/{Id:long}"
+
+@if (WorkOrder == null)
+{
+    <section class="container-fluid">
+        <Loading />
+    </section>
+}
+else
+{
+    <PageTitle>Archie - Work Order Details</PageTitle>
+
+    <PageTemplate>
+        <HeaderContent>
+            <Breadcrumbs>
+                <Breadcrumb><a href="/">Home</a></Breadcrumb>
+                <Breadcrumb><a href="work-orders">Work Orders</a></Breadcrumb>
+                <Breadcrumb>Details</Breadcrumb>
+            </Breadcrumbs>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h4 class="mb-0">Work Order Details</h4>
+                    <p class="text-muted mb-0">@WorkOrder.Customer.CompanyName</p>
+                </div>
+                <button class="btn btn-primary btn-sm" disabled>Edit Work Order</button>
+            </div>
+        </HeaderContent>
+        <ChildContent>
+            <p>details!</p>
+        </ChildContent>
+    </PageTemplate>
+}
