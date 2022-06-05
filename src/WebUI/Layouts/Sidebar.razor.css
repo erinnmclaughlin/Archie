@@ -25,9 +25,10 @@
                 border: none;
             }
 
-            .sidebar > header > a > ::deep.icon-container > .icon {
-                font-size: 28px;
-            }
+                .sidebar > header > a > ::deep.icon-container > .icon {
+                    font-size: 28px;
+                    color: #ea580c;
+                }
 
             .sidebar > header > a > .title {
                 font-family: monospace;

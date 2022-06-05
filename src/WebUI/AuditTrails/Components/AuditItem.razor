@@ -1,7 +1,12 @@
-﻿ <div class="list-group-item d-flex ps-0" style="cursor: default;">
-    <div class="icon px-3 align-self-center opacity-75">
-        <i class="@GetIcon() fa-lg" />
+﻿ <div class="list-group-item d-flex ps-0">
+
+    <div class="icon mx-3 align-self-center position-relative">
+        <i class="@GetIcon() fa-xl" style="color: #9ca3af" />
+        <span class="audit-icon translate-middle badge rounded-pill d-flex justify-content-center align-items-center @GetBadgeColor()">
+            <i class="@GetBadgeIcon() fa-xs m-auto" style="min-width: 16px;" />
+        </span>
     </div>
+
     <div>
         <h6 class="mb-0"><Markdown Value="@Description" /></h6>
         <small class="text-muted">@User on @Timestamp.ToLocalTime().</small>

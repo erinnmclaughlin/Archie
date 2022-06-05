@@ -12,37 +12,36 @@ namespace Archie.WebUI.AuditTrails.Components
         [Parameter, EditorRequired] public string User { get; set; } = "";
         [Parameter] public RenderFragment? ChildContent { get; set; }
 
+        private string GetBadgeIcon()
+        {
+            return AuditType switch
+            {
+                AuditType.Create => "fa-solid fa-plus",
+                AuditType.Update => "fa-solid fa-pencil-alt",
+                AuditType.Delete => "fa-solid fa-minus",
+                _ => "fa-solid fa-edit"
+            };
+        }
+
+        private string GetBadgeColor()
+        {
+            return AuditType switch
+            {
+                AuditType.Create => "bg-success",
+                AuditType.Update => "bg-primary",
+                AuditType.Delete => "bg-danger",
+                _ => "bg-secondary"
+            };
+        }
+
         private string GetIcon()
         {
-            if (AuditType == AuditType.Create)
+            return EventType switch
             {
-                return "text-success " + EventType switch
-                {
-                    EventType.CustomerCreated => "fa-solid fa-building-circle-check",
-                    EventType.WorkOrderCreated => "fa-solid fa-file-circle-plus",
-                    _ => "fa-solid fa-plus"
-                };
-            }
-
-            if (AuditType == AuditType.Update)
-            {
-                return "text-primary " + EventType switch
-                {
-                    EventType.CustomerLocationUpdated => "fa-solid fa-building-circle-arrow-right",
-                    EventType.CustomerNameUpdated => "fa-solid fa-building-user",
-                    _ => "fa-solid fa-pencil-alt"
-                };
-            }
-
-            if (AuditType == AuditType.Delete)
-            {
-                return "text-danger " + EventType switch
-                {
-                    _ => "fa-solid fa-trash-alt"
-                };
-            }
-
-            return "fa-solid fa-plus text-muted";
+                EventType.CustomerCreated or EventType.CustomerLocationUpdated or EventType.CustomerNameUpdated => "fa-solid fa-building",
+                EventType.WorkOrderCreated or EventType.WorkOrderCompleted or EventType.WorkOrderCompleted => "fa-solid fa-file",
+                _ => "fa-solid fa-file"
+            };
         }
     }
 }
