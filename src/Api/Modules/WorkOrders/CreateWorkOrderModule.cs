@@ -32,7 +32,8 @@ public class CreateWorkOrderModule : IModule
         {
             CustomerId = request.CustomerId,
             DueDate = request.DueDate,
-            ReferenceNumber = GenerateReferenceNumber()
+            ReferenceNumber = GenerateReferenceNumber(),
+            Status = WorkOrderStatus.Draft
         };
 
         workOrder.AuditTrail = new List<Audit>
