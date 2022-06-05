@@ -3,6 +3,7 @@ using Archie.Api.Database.Entities;
 using Archie.Api.Exceptions;
 using Archie.Shared.Customers;
 using Archie.Shared.Customers.GetDetails;
+using Archie.Shared.WorkOrders;
 using Ardalis.Specification;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,7 +36,14 @@ public class GetCustomerDetailsModule : IModule
                     c.Id,
                     c.CompanyName,
                     c.Location
-                ))
+                )
+                {
+                    ActiveWorkOrders = c.WorkOrders!
+                        .Where(wo => wo.Status != WorkOrderStatus.Canceled && wo.Status != WorkOrderStatus.Completed)
+                        .Select(wo => new GetCustomerDetailsResponse.WorkOrderDto(wo.Id, wo.ReferenceNumber, wo.Status))
+                        .ToList()
+                })
+                .Include(c => c.WorkOrders!)
                 .Where(c => c.Id == id)
                 .AsNoTracking();
         }

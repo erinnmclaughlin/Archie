@@ -23,7 +23,7 @@ public class WorkOrder
             builder.HasIndex(x => x.ReferenceNumber).IsUnique();
             builder.HasIndex(x => x.Status);
 
-            builder.HasOne(x => x.Customer).WithMany().OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(x => x.Customer).WithMany(x => x.WorkOrders).OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(x => x.ReferenceNumber).HasMaxLength(50).IsRequired();
             builder.Property(x => x.Status).HasConversion<string>().HasMaxLength(50).IsRequired();

@@ -28,7 +28,32 @@ else
             </div>
         </HeaderContent>
         <ChildContent>
-            <CustomerAuditTrail @ref="AuditTrail" CustomerId="Id" />
+            <div class="row">
+                <div class="col">
+                    <h6>Audit Trail</h6>
+                    <CustomerAuditTrail @ref="AuditTrail" CustomerId="Id" />
+                </div>
+                <div class="col-3">
+                    <h6>Active Work Orders</h6>
+                    @if (!Customer.ActiveWorkOrders.Any())
+                    {
+                        <p class="fst-italic text-muted">No active work orders.</p>
+                    }
+                    else
+                    {
+                        <div class="list-group">
+                            @foreach (var workOrder in Customer.ActiveWorkOrders)
+                            {
+                                <a href="work-orders/@workOrder.Id" class="list-group-item list-group-item-action d-flex align-items-center">
+                                    <i class="fa-solid fa-external-link text-primary pe-2" /> 
+                                    <span class="font-monospace">@workOrder.ReferenceNumber</span>
+                                    <span class="badge ms-auto bg-secondary">@workOrder.Status</span>
+                                </a>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
         </ChildContent>
     </PageTemplate>
 }

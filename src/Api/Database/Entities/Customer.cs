@@ -11,6 +11,7 @@ public class Customer
     public Location Location { get; set; } = new();
 
     public ICollection<Audit>? AuditTrail { get; set; }
+    public ICollection<WorkOrder>? WorkOrders { get; set; }
 
     public class Configuration : IEntityTypeConfiguration<Customer>
     {
