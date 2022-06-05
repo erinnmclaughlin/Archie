@@ -1,0 +1,13 @@
+﻿.icon-container {
+    display: flex;
+    align-items: center;
+    height: 32px;
+    width: 32px;
+    background-color: white;
+}
+
+    .icon {
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 18px;
+    }

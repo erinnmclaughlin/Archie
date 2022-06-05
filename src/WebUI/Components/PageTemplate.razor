@@ -1,20 +1,36 @@
-﻿<div class="container ms-3">
-    @if (HeaderContent != null)
-    {
-        <header>
-            @HeaderContent
-        </header>
+﻿<PageTitle>Archie - @Title</PageTitle>
 
-        <hr />
-    }
+<div class="container ms-3">
+
+    <header>
+        @if (BreadcrumbContent != null)
+        {
+            <Breadcrumbs>
+                @BreadcrumbContent
+            </Breadcrumbs>
+        }
+        
+        <PageHeader Title="@Title" Icon="@Icon">
+            <HeaderButtons>
+                @HeaderButtons
+            </HeaderButtons>
+        </PageHeader>
+    </header>
+
+    <hr />
 
     <section> 
-        @ChildContent
+        @MainContent
     </section>
 </div>
 
 @code {
 
-    [Parameter] public RenderFragment? HeaderContent { get; set; }
-    [Parameter, EditorRequired] public RenderFragment ChildContent { get; set; } = default!;
+    [Parameter, EditorRequired] public string Title { get; set; } = string.Empty;
+    [Parameter, EditorRequired] public string Icon { get; set; } = string.Empty;
+    [Parameter, EditorRequired] public RenderFragment MainContent { get; set; } = default!;
+    
+    [Parameter] public RenderFragment? BreadcrumbContent { get; set; }
+    [Parameter] public RenderFragment? HeaderButtons { get; set; }
+    
 }

@@ -6,21 +6,15 @@
 }
 else
 {
-    <PageTitle>Archie - Work Order Search</PageTitle>
-
-    <PageTemplate>
-        <HeaderContent>
-            <Breadcrumbs>
-                <Breadcrumb><a href="/">Home</a></Breadcrumb>
-                <Breadcrumb>Work Orders</Breadcrumb>
-            </Breadcrumbs>
-
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="mb-0">Work Order Search</h4>
-                <button class="btn btn-primary btn-sm" @onclick="LaunchCreateDialog">New Work Order</button>
-            </div>
-        </HeaderContent>
-        <ChildContent>
+    <PageTemplate Title="Work Order Search" Icon="fa-solid fa-file">        
+        <BreadcrumbContent>
+            <Breadcrumb><a href="/">Home</a></Breadcrumb>
+            <Breadcrumb>Work Orders</Breadcrumb>
+        </BreadcrumbContent>
+        <HeaderButtons>
+            <button class="btn btn-primary btn-sm" @onclick="LaunchCreateDialog">New Work Order</button>
+        </HeaderButtons>
+        <MainContent>
             @if (!WorkOrders.Any())
             {
                 <p>None found.</p>
@@ -40,6 +34,6 @@ else
                     }
                 </div>
             }
-        </ChildContent>
+        </MainContent>
     </PageTemplate>
 }

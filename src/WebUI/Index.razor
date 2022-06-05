@@ -1,18 +1,12 @@
 ﻿@page "/"
 
-<PageTitle>Archie - Home</PageTitle>
-
-<PageTemplate>
-    <HeaderContent>
-         <Breadcrumbs>
-            <Breadcrumb>Home</Breadcrumb>
-        </Breadcrumbs>
-
-        <h4 class="mb-0">Welcome to Archie!</h4>
-    </HeaderContent>
-    <ChildContent>
+<PageTemplate Title="Home" Icon="fa-solid fa-home">
+    <BreadcrumbContent>
+        <Breadcrumb>Home</Breadcrumb>
+    </BreadcrumbContent>
+    <MainContent>
         <h5 class="mb-0">Recent Activity</h5>
         <p class="text-muted">Showing 10 most recent events.</p>
         <RecentActivity />
-    </ChildContent>
+    </MainContent>
 </PageTemplate>

@@ -8,26 +8,17 @@
 }
 else
 {
-    <PageTitle>Archie - Work Order Details</PageTitle>
-
-    <PageTemplate>
-        <HeaderContent>
-            <Breadcrumbs>
+    <PageTemplate Title="Work Order Details" Icon="fa-solid fa-file">
+            <BreadcrumbContent>
                 <Breadcrumb><a href="/">Home</a></Breadcrumb>
                 <Breadcrumb><a href="work-orders">Work Orders</a></Breadcrumb>
                 <Breadcrumb>Details</Breadcrumb>
-            </Breadcrumbs>
-
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div>
-                    <h4 class="mb-0">Work Order Details</h4>
-                    <a href="customers/@WorkOrder.Customer.Id" class="text-muted mb-0">@WorkOrder.Customer.CompanyName</a>
-                </div>
+            </BreadcrumbContent>
+            <HeaderButtons>                
                 <button class="btn btn-primary btn-sm" disabled>Edit Work Order</button>
-            </div>
-        </HeaderContent>
-        <ChildContent>
+            </HeaderButtons>
+        <MainContent>
             <p>details!</p>
-        </ChildContent>
+        </MainContent>
     </PageTemplate>
 }

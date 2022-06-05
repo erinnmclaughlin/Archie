@@ -6,21 +6,15 @@
 }
 else
 {
-    <PageTitle>Archie - Customer Search</PageTitle>
-
-    <PageTemplate>
-        <HeaderContent>
-             <Breadcrumbs>
-                <Breadcrumb><a href="/">Home</a></Breadcrumb>
-                <Breadcrumb>Customers</Breadcrumb>
-            </Breadcrumbs>
-
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="mb-0">Customer Search</h4>
-                <button class="btn btn-primary btn-sm" @onclick="LaunchCreateDialog">New Customer</button>
-            </div>
-        </HeaderContent>
-        <ChildContent>
+    <PageTemplate Title="Customer Search" Icon="fa-solid fa-building">
+        <BreadcrumbContent>
+            <Breadcrumb><a href="/">Home</a></Breadcrumb>
+            <Breadcrumb>Customers</Breadcrumb>
+        </BreadcrumbContent>
+        <HeaderButtons>
+            <button class="btn btn-primary btn-sm" @onclick="LaunchCreateDialog">New Customer</button>
+        </HeaderButtons>
+        <MainContent>
             @if (!Customers.Any())
             {
                 <p>None found.</p>
@@ -37,6 +31,6 @@ else
                     }
                 </div>
             }
-        </ChildContent>
+        </MainContent>
     </PageTemplate>
 }

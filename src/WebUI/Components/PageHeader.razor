@@ -1,0 +1,16 @@
+﻿<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="mb-0 d-flex">
+        <HeaderIcon Icon="@Icon" />
+        <span class="ms-2">@Title</span>
+    </h4>
+    <div>
+        @HeaderButtons
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public string Icon { get; set; } = string.Empty;
+    [Parameter, EditorRequired] public string Title { get; set; } = string.Empty;
+    [Parameter] public RenderFragment? HeaderButtons { get; set; }
+
+}

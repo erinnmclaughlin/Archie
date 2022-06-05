@@ -20,19 +20,14 @@
             text-decoration: none;
             color: #212529;
         }
-            .sidebar > header > a > .logo-container {
-                display: flex;
-                align-items: center;
-                height: 32px;
-                width: 32px;
+            .sidebar > header > a > ::deep.icon-container {
                 background-color: rgba(13, 110, 253, .25);
+                border: none;
             }
 
-                .sidebar > header > a > .logo-container > .logo {
-                    margin-left: auto;
-                    margin-right: auto;
-                    font-size: 28px;
-                }
+            .sidebar > header > a > ::deep.icon-container > .icon {
+                font-size: 28px;
+            }
 
             .sidebar > header > a > .title {
                 font-family: monospace;

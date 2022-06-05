@@ -1,35 +1,26 @@
 ﻿@page "/customers/{Id:long}"
-@using Archie.WebUI.Customers.Components
 
 @if (Customer == null)
 {
-    <section class="container-fluid">
-        <Loading />
-    </section>
+    <Loading />
 }
 else
 {
-    <PageTitle>Archie - @Customer.CompanyName</PageTitle>
-
-    <PageTemplate>
-        <HeaderContent>
-            <Breadcrumbs>
-                <Breadcrumb><a href="/">Home</a></Breadcrumb>
-                <Breadcrumb><a href="customers">Customers</a></Breadcrumb>
-                <Breadcrumb>Details</Breadcrumb>
-            </Breadcrumbs>
-
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div>
-                    <h4 class="mb-0">@Customer.CompanyName</h4>
-                    <p class="text-muted mb-0">@Customer.Location.ToString()</p>
-                </div>
-                <button class="btn btn-primary btn-sm" disabled="@(Customer == null)" @onclick="LaunchUpdateDialog">Edit Customer</button>
-            </div>
-        </HeaderContent>
-        <ChildContent>
+    <PageTemplate Title="@Customer.CompanyName" Icon="fa-solid fa-building">
+        <BreadcrumbContent>
+            <Breadcrumb><a href="/">Home</a></Breadcrumb>
+            <Breadcrumb><a href="customers">Customers</a></Breadcrumb>
+            <Breadcrumb>Details</Breadcrumb>
+        </BreadcrumbContent>
+        <HeaderButtons>
+            <button class="btn btn-primary btn-sm" disabled="@(Customer == null)" @onclick="LaunchUpdateDialog">Edit Customer</button>
+        </HeaderButtons>
+        <MainContent>
             <div class="row">
                 <div class="col">
+                    <h6>Location</h6>
+                    <small class="text-muted mb-0">@Customer.Location.ToString()</small>
+
                     <h6>Audit Trail</h6>
                     <CustomerAuditTrail @ref="AuditTrail" CustomerId="Id" />
                 </div>
@@ -53,6 +44,6 @@ else
                     }
                 </div>
             </div>
-        </ChildContent>
+        </MainContent>
     </PageTemplate>
 }
