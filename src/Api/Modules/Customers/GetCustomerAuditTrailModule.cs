@@ -48,7 +48,13 @@ public class GetCustomerAuditTrailModule : IModule
                     a.Description,
                     a.Timestamp,
                     new GetCustomerAuditTrailResponse.UserDto(a.User!.Id, a.User.FullName)
-                ))
+                )
+                {
+                    RelatedCustomers = a.Customers!.Select(c => new GetCustomerAuditTrailResponse.CustomerDto(c.Id, c.CompanyName)).ToList(),
+                    RelatedWorkOrders = a.WorkOrders!.Select(wo => new GetCustomerAuditTrailResponse.WorkOrderDto(wo.Id, wo.ReferenceNumber)).ToList()
+                })
+                .Include(a => a.Customers!)
+                .Include(a => a.WorkOrders!)
                 .Include(a => a.User!)
                 .Where
                 (
@@ -59,6 +65,7 @@ public class GetCustomerAuditTrailModule : IModule
                     )
                 )
                 .OrderByDescending(a => a.Timestamp)
+                .AsSplitQuery()
                 .AsNoTracking();
         }
     }

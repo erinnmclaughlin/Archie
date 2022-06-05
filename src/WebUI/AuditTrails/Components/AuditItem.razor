@@ -7,7 +7,8 @@
     <div>
         <h6 class="mb-0"><Markdown Value="@Description" /></h6>
         <small class="text-muted">@User on @Timestamp.ToLocalTime().</small>
-    </div>   
+    </div>
+    @ChildContent
 </div>
 
 @code {
@@ -16,6 +17,8 @@
     [Parameter, EditorRequired] public EventType EventType { get; set; }
     [Parameter, EditorRequired] public DateTime Timestamp { get; set; }
     [Parameter, EditorRequired] public string User { get; set; } = "";
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
 
     private static string GetIcon(AuditType auditType, EventType eventType)
     {

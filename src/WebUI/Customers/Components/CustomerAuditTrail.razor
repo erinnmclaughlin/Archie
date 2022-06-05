@@ -13,7 +13,22 @@ else
                        Description="@audit.Description"
                        EventType="audit.EventType"
                        Timestamp="audit.Timestamp"
-                       User="@audit.User.FullName" />
+                       User="@audit.User.FullName">
+            
+                <div class="ms-auto align-self-center">
+                    @foreach (var customer in audit.RelatedCustomers.Where(c => c.Id != CustomerId))
+                    {
+                        <a href="customers/@customer.Id" target="_blank" class="btn btn-sm btn-outline-primary">@customer.CompanyName</a>
+                    }
+                    @foreach (var workOrder in audit.RelatedWorkOrders)
+                    {
+                        <a href="work-orders/@workOrder.Id" target="_blank" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-external-link" /> <span class="font-monospace">@workOrder.ReferenceNumber</span>
+                        </a>
+                    }
+                </div>
+
+            </AuditItem>
         }
     </AuditTrail>
 }
