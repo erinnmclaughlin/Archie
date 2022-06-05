@@ -45,8 +45,7 @@ else
                             @foreach (var workOrder in Customer.ActiveWorkOrders)
                             {
                                 <a href="work-orders/@workOrder.Id" class="list-group-item list-group-item-action d-flex align-items-center">
-                                    <i class="fa-solid fa-external-link text-primary pe-2" /> 
-                                    <span class="font-monospace">@workOrder.ReferenceNumber</span>
+                                    <WorkOrderReferenceNumber Value="@workOrder.ReferenceNumber" />
                                     <WorkOrderStatusBadge Class="ms-auto" Status="workOrder.Status" />
                                 </a>
                             }

@@ -58,4 +58,6 @@
 .nav-icon {
     font-size: 1rem;
     width: 1.4rem;
+    text-align: center;
+    margin-right: 0.25rem;
 }

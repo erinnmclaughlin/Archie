@@ -1,8 +1,6 @@
-﻿@using Archie.Shared.Audits
-
- <div class="list-group-item d-flex ps-0" style="cursor: default;">
+﻿ <div class="list-group-item d-flex ps-0" style="cursor: default;">
     <div class="icon px-3 align-self-center opacity-75">
-        <i class="@GetIcon(AuditType, EventType) fa-lg" />
+        <i class="@GetIcon() fa-lg" />
     </div>
     <div>
         <h6 class="mb-0"><Markdown Value="@Description" /></h6>
@@ -11,45 +9,4 @@
     @ChildContent
 </div>
 
-@code {
-    [Parameter, EditorRequired] public AuditType AuditType { get; set; }
-    [Parameter, EditorRequired] public string Description { get; set; } = "";
-    [Parameter, EditorRequired] public EventType EventType { get; set; }
-    [Parameter, EditorRequired] public DateTime Timestamp { get; set; }
-    [Parameter, EditorRequired] public string User { get; set; } = "";
 
-    [Parameter] public RenderFragment? ChildContent { get; set; }
-
-    private static string GetIcon(AuditType auditType, EventType eventType)
-    {
-        if (auditType == AuditType.Create)
-        {
-            return "text-success " + eventType switch
-            {
-                EventType.CustomerCreated => "fa-solid fa-user-plus",
-                EventType.WorkOrderCreated => "fa-solid fa-file-circle-plus",
-                _ => "fa-solid fa-plus"
-            };
-        }
-
-        if (auditType == AuditType.Update)
-        {
-            return "text-primary " + eventType switch
-            {
-                EventType.CustomerLocationUpdated => "fa-solid fa-earth-americas",
-                EventType.CustomerNameUpdated => "fa-solid fa-user-tag",
-                _ => "fa-solid fa-pencil-alt"
-            };
-        }
-
-        if (auditType == AuditType.Delete)
-        {
-            return "text-danger " + eventType switch
-            {
-                _ => "fa-solid fa-trash-alt"
-            };
-        }
-
-        return "fa-solid fa-plus text-muted";
-    }
-}

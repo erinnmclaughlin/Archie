@@ -17,7 +17,7 @@ else
 
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h4 class="mb-0">Work Order Search</h4>
-                <button class="btn btn-success btn-sm" @onclick="LaunchCreateDialog">New Work Order</button>
+                <button class="btn btn-primary btn-sm" @onclick="LaunchCreateDialog">New Work Order</button>
             </div>
         </HeaderContent>
         <ChildContent>
@@ -30,8 +30,12 @@ else
                 <div class="list-group">
                     @foreach (var workOrder in WorkOrders)
                     {
-                        <a href="work-orders/@workOrder.Id" class="list-group-item list-group-item-action">
-                            @workOrder.ReferenceNumber
+                        <a href="work-orders/@workOrder.Id" class="list-group-item list-group-item-action d-flex align-items-center">
+                            <WorkOrderStatusBadge Status="@workOrder.Status" />
+                            <div class="ms-3">
+                                <h6 class="mb-0">@workOrder.Customer.CompanyName</h6>
+                                <WorkOrderReferenceNumber Value="@workOrder.ReferenceNumber" />
+                            </div>
                         </a>
                     }
                 </div>
