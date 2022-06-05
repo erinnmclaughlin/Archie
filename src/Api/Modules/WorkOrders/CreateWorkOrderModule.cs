@@ -38,7 +38,7 @@ public class CreateWorkOrderModule : IModule
 
         workOrder.AuditTrail = new List<Audit>
         {
-            Audits.WorkOrderCreated(customer.CompanyName, workOrder.ReferenceNumber)
+            Audits.WorkOrderCreated(customer, workOrder.ReferenceNumber)
         };
 
         Repository.Add(workOrder);
@@ -62,14 +62,15 @@ public class CreateWorkOrderModule : IModule
             CurrentUser = currentUser;
         }
 
-        public virtual Audit WorkOrderCreated(string companyName, string referenceNumber)
+        public virtual Audit WorkOrderCreated(Customer customer, string referenceNumber)
         {
             return new Audit
             { 
                 AuditType = AuditType.Create,
                 EventType = EventType.WorkOrderCreated,
-                Description = $"Work order `{referenceNumber}` was created for {companyName}.",
-                UserId = CurrentUser.Id
+                Description = $"Work order `{referenceNumber}` was created for {customer.CompanyName}.",
+                UserId = CurrentUser.Id,
+                Customers = new List<Customer> { customer }
             };
         }
     }
