@@ -13,7 +13,6 @@ else
                        Timestamp="audit.Timestamp"
                        User="@audit.User.FullName">
             
-                <div class="ms-auto align-self-center">
                     @foreach (var customer in audit.RelatedCustomers)
                     {
                         <a href="customers/@customer.Id" target="_blank" class="btn btn-sm btn-outline-primary">
@@ -26,7 +25,6 @@ else
                             <i class="fas fa-external-link" /> <span class="font-monospace">@workOrder.ReferenceNumber</span>
                         </a>
                     }
-                </div>
 
             </AuditItem>
         }

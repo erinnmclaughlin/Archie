@@ -1,6 +1,5 @@
 ﻿using Archie.Api.Common;
 using Archie.Api.Database.Entities;
-using Archie.Shared.Audits;
 using Archie.Shared.Customers;
 using Archie.Shared.Customers.GetAuditTrail;
 using Ardalis.Specification;
