@@ -18,11 +18,15 @@ else
         <MainContent>
             <div class="row">
                 <div class="col">
-                    <h6>Location</h6>
-                    <small class="text-muted mb-0">@Customer.Location.ToString()</small>
+                    <section class="mb-3">
+                        <h6 class="mb-0">Location</h6>
+                        <small class="text-muted">@Customer.Location.ToString()</small>
+                    </section>
+                    <section>                        
+                        <h6>Audit Trail</h6>
+                        <CustomerAuditTrail @ref="AuditTrail" CustomerId="Id" />
+                    </section>
 
-                    <h6>Audit Trail</h6>
-                    <CustomerAuditTrail @ref="AuditTrail" CustomerId="Id" />
                 </div>
                 <div class="col-3">
                     <h6>Active Work Orders</h6>
