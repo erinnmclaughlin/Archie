@@ -1,7 +1,7 @@
 using Archie.WebUI;
 using Archie.WebUI.AuditTrails;
 using Archie.WebUI.Customers;
-using Archie.WebUI.Shared.Dialogs;
+using Archie.WebUI.Services.Dialogs;
 using Archie.WebUI.WorkOrders;
 using Blazored.Modal;
 using Microsoft.AspNetCore.Components.Web;

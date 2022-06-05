@@ -2,7 +2,7 @@
 using Archie.Shared.Customers.Update;
 using Archie.WebUI.Customers.Components;
 using Archie.WebUI.Customers.Dialogs;
-using Archie.WebUI.Shared.Dialogs;
+using Archie.WebUI.Services.Dialogs;
 using Microsoft.AspNetCore.Components;
 
 namespace Archie.WebUI.Customers.Pages;

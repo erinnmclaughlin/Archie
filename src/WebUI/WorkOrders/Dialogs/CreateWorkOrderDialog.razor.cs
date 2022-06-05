@@ -1,7 +1,7 @@
 ﻿using Archie.Shared.Customers.GetAll;
 using Archie.Shared.WorkOrders.Create;
 using Archie.WebUI.Customers;
-using Archie.WebUI.Shared.Dialogs;
+using Archie.WebUI.Services.Dialogs;
 using Blazored.Modal;
 using FluentValidation;
 using Microsoft.AspNetCore.Components;

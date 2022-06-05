@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Archie.WebUI.Shared.Dialogs;
+namespace Archie.WebUI.Services.Dialogs;
 
 public interface IDialog : IComponent
 {

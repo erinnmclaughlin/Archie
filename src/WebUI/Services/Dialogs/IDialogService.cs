@@ -1,6 +1,6 @@
 ﻿using Blazored.Modal;
 
-namespace Archie.WebUI.Shared.Dialogs;
+namespace Archie.WebUI.Services.Dialogs;
 
 public interface IDialogService
 {

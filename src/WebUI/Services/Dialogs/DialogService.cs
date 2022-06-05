@@ -1,7 +1,7 @@
 ﻿using Blazored.Modal;
 using Blazored.Modal.Services;
 
-namespace Archie.WebUI.Shared.Dialogs;
+namespace Archie.WebUI.Services.Dialogs;
 
 public class DialogService : IDialogService
 {

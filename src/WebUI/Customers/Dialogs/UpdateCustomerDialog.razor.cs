@@ -1,7 +1,7 @@
 ﻿using Archie.Shared.Customers;
 using Archie.Shared.Customers.Update;
 using Archie.Shared.ValueObjects;
-using Archie.WebUI.Shared.Dialogs;
+using Archie.WebUI.Services.Dialogs;
 using Blazored.Modal;
 using Blazored.Modal.Services;
 using FluentValidation;
