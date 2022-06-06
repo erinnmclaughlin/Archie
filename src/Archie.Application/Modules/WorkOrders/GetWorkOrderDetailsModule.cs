@@ -1,8 +1,8 @@
 ﻿using Archie.Application.Common;
 using Archie.Application.Database.Entities;
 using Archie.Application.Exceptions;
-using Archie.Shared.WorkOrders;
-using Archie.Shared.WorkOrders.GetDetails;
+using Archie.Shared.Modules.WorkOrders;
+using Archie.Shared.Modules.WorkOrders.GetDetails;
 using Ardalis.Specification;
 using Microsoft.AspNetCore.Mvc;
 

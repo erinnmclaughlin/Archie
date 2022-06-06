@@ -1,8 +1,7 @@
 ﻿using Archie.Application.Common;
 using Archie.Application.Database.Entities;
-using Archie.Shared.Customers;
-using Archie.Shared.Customers.GetAll;
-using Archie.Shared.ValueObjects;
+using Archie.Shared.Modules.Customers;
+using Archie.Shared.Modules.Customers.GetAll;
 using Ardalis.Specification;
 using Microsoft.AspNetCore.Mvc;
 

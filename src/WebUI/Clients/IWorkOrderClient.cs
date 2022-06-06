@@ -1,7 +1,7 @@
-﻿using Archie.Shared.WorkOrders;
-using Archie.Shared.WorkOrders.Create;
-using Archie.Shared.WorkOrders.GetAll;
-using Archie.Shared.WorkOrders.GetDetails;
+﻿using Archie.Shared.Modules.WorkOrders;
+using Archie.Shared.Modules.WorkOrders.Create;
+using Archie.Shared.Modules.WorkOrders.GetAll;
+using Archie.Shared.Modules.WorkOrders.GetDetails;
 using Refit;
 
 namespace Archie.WebUI.Clients;

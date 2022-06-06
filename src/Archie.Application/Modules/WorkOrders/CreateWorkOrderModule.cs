@@ -1,9 +1,9 @@
 ﻿using Archie.Application.Common;
 using Archie.Application.Database.Entities;
 using Archie.Application.Exceptions;
-using Archie.Shared.Audits;
-using Archie.Shared.WorkOrders;
-using Archie.Shared.WorkOrders.Create;
+using Archie.Shared.Modules.Audits;
+using Archie.Shared.Modules.WorkOrders;
+using Archie.Shared.Modules.WorkOrders.Create;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Archie.Application.Modules.WorkOrders;

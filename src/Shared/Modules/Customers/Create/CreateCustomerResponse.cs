@@ -1,4 +1,4 @@
-﻿namespace Archie.Shared.Customers.Create;
+﻿namespace Archie.Shared.Modules.Customers.Create;
 
 public class CreateCustomerResponse
 {

@@ -1,4 +1,4 @@
-﻿namespace Archie.Shared.Audits.GetRecentActivity;
+﻿namespace Archie.Shared.Modules.Audits.GetRecentActivity;
 
 public class GetRecentActivityResponse : List<GetRecentActivityResponse.AuditDto>
 {

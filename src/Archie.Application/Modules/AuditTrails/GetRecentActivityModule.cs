@@ -1,7 +1,7 @@
 ﻿using Archie.Application.Common;
 using Archie.Application.Database.Entities;
-using Archie.Shared.Audits;
-using Archie.Shared.Audits.GetRecentActivity;
+using Archie.Shared.Modules.Audits;
+using Archie.Shared.Modules.Audits.GetRecentActivity;
 using Ardalis.Specification;
 using Microsoft.AspNetCore.Mvc;
 

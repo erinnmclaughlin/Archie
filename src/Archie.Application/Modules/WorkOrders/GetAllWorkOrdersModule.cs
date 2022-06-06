@@ -1,7 +1,7 @@
 ﻿using Archie.Application.Common;
 using Archie.Application.Database.Entities;
-using Archie.Shared.WorkOrders;
-using Archie.Shared.WorkOrders.GetAll;
+using Archie.Shared.Modules.WorkOrders;
+using Archie.Shared.Modules.WorkOrders.GetAll;
 using Ardalis.Specification;
 using Microsoft.AspNetCore.Mvc;
 

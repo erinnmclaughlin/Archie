@@ -1,5 +1,5 @@
-﻿using Archie.Shared.Customers.GetAll;
-using Archie.Shared.WorkOrders.Create;
+﻿using Archie.Shared.Modules.Customers.GetAll;
+using Archie.Shared.Modules.WorkOrders.Create;
 using Archie.WebUI.Clients;
 using Archie.WebUI.Services.Dialogs;
 using Blazored.Modal;

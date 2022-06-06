@@ -1,4 +1,5 @@
-﻿namespace Archie.Shared.WorkOrders;
+﻿namespace Archie.Shared.Modules.WorkOrders;
+
 public static class WorkOrderEndpoints
 {
     public const string CreateWorkOrder = "/api/work-orders";

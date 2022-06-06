@@ -1,7 +1,7 @@
 ﻿using Archie.Shared.ValueObjects;
 using FluentValidation;
 
-namespace Archie.Shared.Customers.Create;
+namespace Archie.Shared.Modules.Customers.Create;
 
 public class CreateCustomerRequest
 {

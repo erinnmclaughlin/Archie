@@ -1,4 +1,4 @@
-﻿namespace Archie.Shared.WorkOrders.Create;
+﻿namespace Archie.Shared.Modules.WorkOrders.Create;
 
 public class CreateWorkOrderResponse
 {

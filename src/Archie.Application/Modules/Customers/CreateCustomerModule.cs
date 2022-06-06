@@ -1,8 +1,8 @@
 ﻿using Archie.Application.Common;
 using Archie.Application.Database.Entities;
-using Archie.Shared.Audits;
-using Archie.Shared.Customers;
-using Archie.Shared.Customers.Create;
+using Archie.Shared.Modules.Audits;
+using Archie.Shared.Modules.Customers;
+using Archie.Shared.Modules.Customers.Create;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Archie.Application.Modules.Customers;

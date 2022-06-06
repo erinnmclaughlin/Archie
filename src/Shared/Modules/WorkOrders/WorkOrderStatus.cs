@@ -1,4 +1,4 @@
-﻿namespace Archie.Shared.WorkOrders;
+﻿namespace Archie.Shared.Modules.WorkOrders;
 
 public enum WorkOrderStatus
 {

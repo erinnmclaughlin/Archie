@@ -1,7 +1,7 @@
 ﻿using Archie.Application.Common;
 using Archie.Application.Database.Entities;
-using Archie.Shared.Customers;
-using Archie.Shared.Customers.GetAuditTrail;
+using Archie.Shared.Modules.Customers;
+using Archie.Shared.Modules.Customers.GetAuditTrail;
 using Ardalis.Specification;
 using Microsoft.AspNetCore.Mvc;
 

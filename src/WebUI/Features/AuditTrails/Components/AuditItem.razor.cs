@@ -1,4 +1,4 @@
-using Archie.Shared.Audits;
+using Archie.Shared.Modules.Audits;
 using Microsoft.AspNetCore.Components;
 
 namespace Archie.WebUI.Features.AuditTrails.Components

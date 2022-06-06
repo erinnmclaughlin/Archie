@@ -1,9 +1,9 @@
 ﻿using Archie.Application.Common;
 using Archie.Application.Database.Entities;
 using Archie.Application.Exceptions;
-using Archie.Shared.Audits;
-using Archie.Shared.Customers;
-using Archie.Shared.Customers.Update;
+using Archie.Shared.Modules.Audits;
+using Archie.Shared.Modules.Customers;
+using Archie.Shared.Modules.Customers.Update;
 using Archie.Shared.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
 

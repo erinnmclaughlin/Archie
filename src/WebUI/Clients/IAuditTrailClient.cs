@@ -1,5 +1,5 @@
-﻿using Archie.Shared.Audits;
-using Archie.Shared.Audits.GetRecentActivity;
+﻿using Archie.Shared.Modules.Audits;
+using Archie.Shared.Modules.Audits.GetRecentActivity;
 using Refit;
 
 namespace Archie.WebUI.Clients;
