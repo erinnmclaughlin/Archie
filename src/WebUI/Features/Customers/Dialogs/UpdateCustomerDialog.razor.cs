@@ -8,7 +8,7 @@ using Blazored.Modal.Services;
 using FluentValidation;
 using Microsoft.AspNetCore.Components;
 
-namespace Archie.WebUI.Customers.Dialogs;
+namespace Archie.WebUI.Features.Customers.Dialogs;
 
 public partial class UpdateCustomerDialog : IDialog<UpdateCustomerDialog.DialogParameters>
 {

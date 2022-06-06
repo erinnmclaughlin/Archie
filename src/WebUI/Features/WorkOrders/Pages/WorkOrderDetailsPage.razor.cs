@@ -2,7 +2,7 @@
 using Archie.WebUI.Clients;
 using Microsoft.AspNetCore.Components;
 
-namespace Archie.WebUI.WorkOrders.Pages;
+namespace Archie.WebUI.Modules.WorkOrders.Pages;
 
 public partial class WorkOrderDetailsPage
 {

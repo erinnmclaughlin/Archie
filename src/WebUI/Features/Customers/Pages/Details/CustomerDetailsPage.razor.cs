@@ -1,12 +1,11 @@
 ﻿using Archie.Shared.Customers.GetDetails;
 using Archie.Shared.Customers.Update;
 using Archie.WebUI.Clients;
-using Archie.WebUI.Customers.Components;
-using Archie.WebUI.Customers.Dialogs;
+using Archie.WebUI.Modules.Customers.Dialogs;
 using Archie.WebUI.Services.Dialogs;
 using Microsoft.AspNetCore.Components;
 
-namespace Archie.WebUI.Customers.Pages;
+namespace Archie.WebUI.Modules.Customers.Pages.Details;
 
 public partial class CustomerDetailsPage
 {

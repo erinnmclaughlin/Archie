@@ -1,41 +1,31 @@
-﻿using Archie.Shared.Customers.GetAll;
-using Archie.Shared.WorkOrders.Create;
+﻿using Archie.Shared.Customers;
+using Archie.Shared.Customers.Create;
+using Archie.Shared.ValueObjects;
 using Archie.WebUI.Clients;
 using Archie.WebUI.Services.Dialogs;
 using Blazored.Modal;
 using FluentValidation;
 using Microsoft.AspNetCore.Components;
 
-namespace Archie.WebUI.WorkOrders.Dialogs;
+namespace Archie.WebUI.Features.Customers.Dialogs;
 
-public partial class CreateWorkOrderDialog : IDialog
+public partial class CreateCustomerDialog : IDialog
 {
     [Inject] private ICustomerClient CustomerClient { get; set; } = default!;
     [Inject] private NavigationManager Navigation { get; set; } = default!;
-    [Inject] private IWorkOrderClient WorkOrderClient { get; set; } = default!;
     [CascadingParameter] private BlazoredModalInstance ModalInstance { get; set; } = default!;
 
-    private GetAllCustomersResponse? Customers { get; set; }
     private bool IsSubmitting { get; set; }
     private Form Model { get; } = new();
 
     protected override void OnInitialized()
     {
-        ModalInstance.SetTitle("Create Work Order");
+        ModalInstance.SetTitle("Create Customer");
     }
 
     public Task Close()
     {
         return ModalInstance.CloseAsync();
-    }
-
-    private async Task EnsureCustomersAreLoaded()
-    {
-        if (Customers != null)
-            return;
-
-        var response = await CustomerClient.GetAllAsync();
-        Customers = response.Content;
     }
 
     private async Task Submit()
@@ -45,12 +35,12 @@ public partial class CreateWorkOrderDialog : IDialog
 
         IsSubmitting = true;
 
-        var request = new CreateWorkOrderRequest(Model.CustomerId!.Value, Model.DueDate);
-        var response = await WorkOrderClient.CreateAsync(request);
+        var request = new CreateCustomerRequest(Model.CompanyName, new Location(Model.City, Model.Region, Model.Country));
+        var response = await CustomerClient.CreateAsync(request);
 
         if (response.IsSuccessStatusCode && response.Content != null)
         {
-            Navigation.NavigateTo($"work-orders/{response.Content.Id}");
+            Navigation.NavigateTo($"customers/{response.Content.Id}");
             await ModalInstance.CloseAsync();
         }
 
@@ -59,15 +49,19 @@ public partial class CreateWorkOrderDialog : IDialog
 
     public class Form
     {
-        public long? CustomerId { get; set; }
-        public DateTime? DueDate { get; set; }
+        public string CompanyName { get; set; } = string.Empty;
+        public string City { get; set; } = string.Empty;
+        public string Region { get; set; } = string.Empty;
+        public string Country { get; set; } = string.Empty;
 
         public class Validator : AbstractValidator<Form>
         {
             public Validator()
             {
-                RuleFor(x => x.CustomerId)
-                    .NotNull().WithMessage("You must select a customer.");
+                RuleFor(x => x.CompanyName).IsValidCompanyName();
+                RuleFor(x => x.City).IsValidCity();
+                RuleFor(x => x.Region).IsValidRegion();
+                RuleFor(x => x.Country).IsValidCountry();
             }
         }
     }

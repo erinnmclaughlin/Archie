@@ -2,7 +2,7 @@
 using Archie.WebUI.Clients;
 using Microsoft.AspNetCore.Components;
 
-namespace Archie.WebUI.AuditTrails.Components;
+namespace Archie.WebUI.Features.AuditTrails.Components;
 
 public partial class RecentActivity
 {

@@ -1,10 +1,10 @@
 ﻿using Archie.Shared.WorkOrders.GetAll;
 using Archie.WebUI.Clients;
+using Archie.WebUI.Modules.WorkOrders.Dialogs;
 using Archie.WebUI.Services.Dialogs;
-using Archie.WebUI.WorkOrders.Dialogs;
 using Microsoft.AspNetCore.Components;
 
-namespace Archie.WebUI.WorkOrders.Pages;
+namespace Archie.WebUI.Modules.WorkOrders.Pages;
 
 public partial class WorkOrderSearchPage
 {
