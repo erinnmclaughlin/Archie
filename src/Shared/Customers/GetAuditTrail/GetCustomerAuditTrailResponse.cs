@@ -2,17 +2,8 @@
 
 namespace Archie.Shared.Customers.GetAuditTrail;
 
-public class GetCustomerAuditTrailResponse : List<GetCustomerAuditTrailResponse.AuditDto>
+public record GetCustomerAuditTrailResponse(List<GetCustomerAuditTrailResponse.AuditDto> Audits)
 {
-    public GetCustomerAuditTrailResponse()
-    {
-    }
-
-    public GetCustomerAuditTrailResponse(IEnumerable<AuditDto> audits)
-    {
-        AddRange(audits);
-    }
-
     public record AuditDto(AuditType AuditType, EventType EventType, string Description, DateTime Timestamp, UserDto User)
     {
         public List<CustomerDto> RelatedCustomers { get; set; } = new();

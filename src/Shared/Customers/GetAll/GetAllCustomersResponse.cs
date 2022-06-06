@@ -2,28 +2,7 @@
 
 namespace Archie.Shared.Customers.GetAll;
 
-public class GetAllCustomersResponse : List<GetAllCustomersResponse.CustomerDto>
+public record GetAllCustomersResponse(List<GetAllCustomersResponse.CustomerDto> Customers)
 {
-    public GetAllCustomersResponse()
-    {
-    }
-
-    public GetAllCustomersResponse(IEnumerable<CustomerDto> customers)
-    {
-        AddRange(customers);
-    }
-
-    public class CustomerDto
-    {
-        public long Id { get; set; }
-        public string CompanyName { get; set; }
-        public Location Location { get; set; }
-
-        public CustomerDto(long id, string companyName, Location location)
-        {
-            Id = id;
-            CompanyName = companyName;
-            Location = location;
-        }
-    }
+    public record CustomerDto(long id, string companyName, Location location);
 }
