@@ -1,6 +1,6 @@
 ﻿@page "/customers"
 
-@if (Customers == null)
+@if (Response == null)
 {
     <Loading />
 }
@@ -15,14 +15,14 @@ else
             <button class="btn btn-primary btn-sm" @onclick="LaunchCreateDialog">New Customer</button>
         </HeaderButtons>
         <MainContent>
-            @if (!Customers.Any())
+            @if (!Response.Customers.Any())
             {
                 <p>None found.</p>
             }
             else
             {
                 <div class="list-group">
-                    @foreach (var customer in Customers)
+                    @foreach (var customer in Response.Customers)
                     {
                         <a href="customers/@customer.Id" class="list-group-item list-group-item-action">
                             <h6 class="mb-0 text-primary">@customer.CompanyName</h6>

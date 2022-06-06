@@ -5,7 +5,7 @@
 else
 {
     <AuditTrail>
-        @foreach (var audit in AuditTrail)
+        @foreach (var audit in AuditTrail.Audits)
         {
             <AuditItem AuditType="audit.AuditType"
                        Description="@audit.Description"

@@ -11,12 +11,12 @@ public partial class CustomerSearchPage
     [Inject] private ICustomerClient CustomerClient { get; set; } = default!;
     [Inject] private IDialogService DialogService { get; set; } = default!;
 
-    private GetAllCustomersResponse? Customers { get; set; }
+    private GetAllCustomersResponse? Response { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         var response = await CustomerClient.GetAllAsync();
-        Customers = response.Content;
+        Response = response.Content;
     }
 
     private async Task LaunchCreateDialog()
