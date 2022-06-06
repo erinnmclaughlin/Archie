@@ -1,16 +1,7 @@
-using Archie.Api.Common;
-using Archie.Api.Database;
-using Archie.Api.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
+using Archie.Application.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
-builder.Services.AddDbContext<ArchieContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ArchieDb")));
-builder.Services.AddScoped<IRepository, ArchieRepository>();
-
-builder.Services.AddApplicationModules();
+builder.Services.AddApplicationModules(builder.Configuration);
 
 var app = builder.Build();
 
@@ -20,7 +11,6 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
 
@@ -28,7 +18,6 @@ app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 app.UseRouting();
-app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
 app.Run();
