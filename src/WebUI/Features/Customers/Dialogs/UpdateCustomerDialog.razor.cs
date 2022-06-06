@@ -23,10 +23,10 @@ public partial class UpdateCustomerDialog : IDialog<UpdateCustomerDialog.DialogP
     {
         ModalInstance.SetTitle("Update Customer");
 
-        Model.CompanyName = Parameters.DefaultForm.CompanyName;
-        Model.City = Parameters.DefaultForm.City;
-        Model.Country = Parameters.DefaultForm.Country;
-        Model.Region = Parameters.DefaultForm.Region;
+        Model.CompanyName = Parameters.CompanyName;
+        Model.City = Parameters.Location.City ?? "";
+        Model.Country = Parameters.Location.Country ?? "";
+        Model.Region = Parameters.Location.Region ?? "";
     }
 
     public Task Close()
@@ -48,17 +48,7 @@ public partial class UpdateCustomerDialog : IDialog<UpdateCustomerDialog.DialogP
             await ModalInstance.CloseAsync(ModalResult.Ok(response.Content!));
     }
 
-    public class DialogParameters
-    {
-        public long CustomerId { get; }
-        public Form DefaultForm { get; }
-
-        public DialogParameters(long customerId, string companyName, Location location)
-        {
-            CustomerId = customerId;
-            DefaultForm = new Form(companyName, location);
-        }
-    }
+    public record DialogParameters(long CustomerId, string CompanyName, Location Location);
 
     public class Form
     {
@@ -66,19 +56,7 @@ public partial class UpdateCustomerDialog : IDialog<UpdateCustomerDialog.DialogP
         public string City { get; set; } = string.Empty;
         public string Region { get; set; } = string.Empty;
         public string Country { get; set; } = string.Empty;
-
-        public Form()
-        {
-        }
-
-        public Form(string companyName, Location location)
-        {
-            CompanyName = companyName;
-            City = location.City ?? string.Empty;
-            Region = location.Region ?? string.Empty;
-            Country = location.Country ?? string.Empty;
-        }
-
+        
         public class Validator : AbstractValidator<Form>
         {
             public Validator()
