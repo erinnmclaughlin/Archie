@@ -1,6 +1,6 @@
 ﻿using Archie.Shared.ValueObjects;
 
-namespace Archie.Shared.WorkOrders.GetDetails;
+namespace Archie.Shared.Modules.WorkOrders.GetDetails;
 public class GetWorkOrderDetailsResponse
 {
     public long Id { get; set; }

@@ -1,6 +1,6 @@
-﻿using Archie.Shared.Audits;
+﻿using Archie.Shared.Modules.Audits;
 
-namespace Archie.Shared.Customers.GetAuditTrail;
+namespace Archie.Shared.Modules.Customers.GetAuditTrail;
 
 public class GetCustomerAuditTrailResponse : List<GetCustomerAuditTrailResponse.AuditDto>
 {

@@ -1,6 +1,6 @@
 ﻿using Archie.Shared.ValueObjects;
 
-namespace Archie.Shared.Customers.Update;
+namespace Archie.Shared.Modules.Customers.Update;
 
 public class UpdateCustomerResponse
 {

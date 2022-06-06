@@ -1,4 +1,4 @@
-﻿namespace Archie.Shared.Audits;
+﻿namespace Archie.Shared.Modules.Audits;
 
 public enum AuditType
 {

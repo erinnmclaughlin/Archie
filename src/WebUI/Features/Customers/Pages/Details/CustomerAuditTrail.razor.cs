@@ -1,5 +1,4 @@
-﻿using Archie.Shared.Audits;
-using Archie.Shared.Customers.GetAuditTrail;
+﻿using Archie.Shared.Modules.Customers.GetAuditTrail;
 using Archie.WebUI.Clients;
 using Microsoft.AspNetCore.Components;
 

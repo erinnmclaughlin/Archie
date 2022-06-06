@@ -1,7 +1,7 @@
 ﻿using Archie.Shared.ValueObjects;
 using FluentValidation;
 
-namespace Archie.Shared.Customers.Update;
+namespace Archie.Shared.Modules.Customers.Update;
 public class UpdateCustomerRequest
 {
     public string CompanyName { get; set; } = string.Empty;

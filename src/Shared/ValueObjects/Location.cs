@@ -1,4 +1,4 @@
-﻿                                                                                                                                                      namespace Archie.Shared.ValueObjects;
+﻿ namespace Archie.Shared.ValueObjects;
 
 public class Location
 {

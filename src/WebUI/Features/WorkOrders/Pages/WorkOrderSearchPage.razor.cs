@@ -1,4 +1,4 @@
-﻿using Archie.Shared.WorkOrders.GetAll;
+﻿using Archie.Shared.Modules.WorkOrders.GetAll;
 using Archie.WebUI.Clients;
 using Archie.WebUI.Features.WorkOrders.Dialogs;
 using Archie.WebUI.Services.Dialogs;

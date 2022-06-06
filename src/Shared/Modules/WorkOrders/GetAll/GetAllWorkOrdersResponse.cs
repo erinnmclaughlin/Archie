@@ -1,6 +1,6 @@
 ﻿using Archie.Shared.ValueObjects;
 
-namespace Archie.Shared.WorkOrders.GetAll;
+namespace Archie.Shared.Modules.WorkOrders.GetAll;
 public class GetAllWorkOrdersResponse : List<GetAllWorkOrdersResponse.WorkOrderDto>
 {
     public GetAllWorkOrdersResponse()

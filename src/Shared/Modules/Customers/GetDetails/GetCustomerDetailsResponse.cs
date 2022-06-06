@@ -1,7 +1,7 @@
-﻿using Archie.Shared.ValueObjects;
-using Archie.Shared.WorkOrders;
+﻿using Archie.Shared.Modules.WorkOrders;
+using Archie.Shared.ValueObjects;
 
-namespace Archie.Shared.Customers.GetDetails;
+namespace Archie.Shared.Modules.Customers.GetDetails;
 
 public class GetCustomerDetailsResponse
 {

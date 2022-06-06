@@ -1,4 +1,4 @@
-﻿using Archie.Shared.WorkOrders.GetDetails;
+﻿using Archie.Shared.Modules.WorkOrders.GetDetails;
 using Archie.WebUI.Clients;
 using Microsoft.AspNetCore.Components;
 

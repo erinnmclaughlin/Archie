@@ -1,6 +1,6 @@
 ﻿using Archie.Shared.ValueObjects;
 
-namespace Archie.Shared.Customers.GetAll;
+namespace Archie.Shared.Modules.Customers.GetAll;
 
 public class GetAllCustomersResponse : List<GetAllCustomersResponse.CustomerDto>
 {

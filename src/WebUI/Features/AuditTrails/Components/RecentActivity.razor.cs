@@ -1,4 +1,4 @@
-﻿using Archie.Shared.Audits.GetRecentActivity;
+﻿using Archie.Shared.Modules.Audits.GetRecentActivity;
 using Archie.WebUI.Clients;
 using Microsoft.AspNetCore.Components;
 

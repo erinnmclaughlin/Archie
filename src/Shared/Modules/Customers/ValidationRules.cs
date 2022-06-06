@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Archie.Shared.Customers;
+namespace Archie.Shared.Modules.Customers;
 
 public static class ValidationRules
 {
