@@ -1,7 +1,13 @@
+using Archie.Api.Services;
 using Archie.Application.DependencyInjection;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddApplicationModules(builder.Configuration);
+builder.Services.AddApplicationModules<ApiUser>(builder.Configuration);
+
+builder.Services.AddControllers()
+    .PartManager.ApplicationParts.Add(new AssemblyPart(Assembly.GetAssembly(typeof(RegisterModules))!));
 
 var app = builder.Build();
 
