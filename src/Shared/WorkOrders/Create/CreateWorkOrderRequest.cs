@@ -10,8 +10,6 @@ public class CreateWorkOrderRequest
     {
         CustomerId = customerId;
         DueDate = dueDate;
-
-        Validate();
     }
 
     public void Validate() => new Validator().ValidateAndThrow(this);

@@ -3,7 +3,7 @@ using Archie.Shared.Customers.GetAuditTrail;
 using Archie.WebUI.Clients;
 using Microsoft.AspNetCore.Components;
 
-namespace Archie.WebUI.Modules.Customers.Pages.Details;
+namespace Archie.WebUI.Features.Customers.Pages.Details;
 
 public partial class CustomerAuditTrail
 {

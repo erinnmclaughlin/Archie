@@ -6,7 +6,7 @@ using Blazored.Modal;
 using FluentValidation;
 using Microsoft.AspNetCore.Components;
 
-namespace Archie.WebUI.Modules.WorkOrders.Dialogs;
+namespace Archie.WebUI.Features.WorkOrders.Dialogs;
 
 public partial class CreateWorkOrderDialog : IDialog
 {

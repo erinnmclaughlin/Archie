@@ -12,8 +12,6 @@ public class CreateCustomerRequest
     {
         CompanyName = companyName;
         Location = location;
-
-        Validate();
     }
 
     public void Validate() => new Validator().ValidateAndThrow(this);
