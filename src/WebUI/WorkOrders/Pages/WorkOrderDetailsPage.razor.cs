@@ -1,4 +1,5 @@
 ﻿using Archie.Shared.WorkOrders.GetDetails;
+using Archie.WebUI.Clients;
 using Microsoft.AspNetCore.Components;
 
 namespace Archie.WebUI.WorkOrders.Pages;

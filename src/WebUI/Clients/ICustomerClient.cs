@@ -6,8 +6,9 @@ using Archie.Shared.Customers.GetDetails;
 using Archie.Shared.Customers.Update;
 using Refit;
 
-namespace Archie.WebUI.Customers;
+namespace Archie.WebUI.Clients;
 
+[RefitClient]
 public interface ICustomerClient
 {
     [Post(CustomerEndpoints.CreateCustomer)]

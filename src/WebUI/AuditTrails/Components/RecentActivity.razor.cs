@@ -1,4 +1,5 @@
 ﻿using Archie.Shared.Audits.GetRecentActivity;
+using Archie.WebUI.Clients;
 using Microsoft.AspNetCore.Components;
 
 namespace Archie.WebUI.AuditTrails.Components;

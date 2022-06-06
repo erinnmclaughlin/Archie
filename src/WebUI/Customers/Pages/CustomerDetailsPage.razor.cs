@@ -1,5 +1,6 @@
 ﻿using Archie.Shared.Customers.GetDetails;
 using Archie.Shared.Customers.Update;
+using Archie.WebUI.Clients;
 using Archie.WebUI.Customers.Components;
 using Archie.WebUI.Customers.Dialogs;
 using Archie.WebUI.Services.Dialogs;

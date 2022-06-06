@@ -1,12 +1,11 @@
 using Archie.WebUI;
-using Archie.WebUI.AuditTrails;
-using Archie.WebUI.Customers;
+using Archie.WebUI.Clients;
 using Archie.WebUI.Services.Dialogs;
-using Archie.WebUI.WorkOrders;
 using Blazored.Modal;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Refit;
+using System.Reflection;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -15,13 +14,14 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddBlazoredModal();
 builder.Services.AddScoped<IDialogService, DialogService>();
 
-builder.Services.AddRefitClient<IAuditTrailClient>()
-    .ConfigureHttpClient(x => x.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
-
-builder.Services.AddRefitClient<ICustomerClient>()
-    .ConfigureHttpClient(x => x.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
-
-builder.Services.AddRefitClient<IWorkOrderClient>()
-    .ConfigureHttpClient(x => x.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
+// Auto-register refit clients
+Assembly.GetExecutingAssembly().GetTypes()
+    .Where(t => t.CustomAttributes.Any(a => a.AttributeType == typeof(RefitClientAttribute)))
+    .ToList()
+    .ForEach(client =>
+    {
+        builder.Services.AddRefitClient(client)
+            .ConfigureHttpClient(x => x.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
+    });
 
 await builder.Build().RunAsync();

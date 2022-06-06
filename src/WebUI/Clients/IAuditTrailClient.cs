@@ -2,8 +2,9 @@
 using Archie.Shared.Audits.GetRecentActivity;
 using Refit;
 
-namespace Archie.WebUI.AuditTrails;
+namespace Archie.WebUI.Clients;
 
+[RefitClient]
 public interface IAuditTrailClient
 {
     [Get(AuditTrailEndpoints.GetRecentActivity)]

@@ -4,8 +4,9 @@ using Archie.Shared.WorkOrders.GetAll;
 using Archie.Shared.WorkOrders.GetDetails;
 using Refit;
 
-namespace Archie.WebUI.WorkOrders;
+namespace Archie.WebUI.Clients;
 
+[RefitClient]
 public interface IWorkOrderClient
 {
     [Post(WorkOrderEndpoints.CreateWorkOrder)]
