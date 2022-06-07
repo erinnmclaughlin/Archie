@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Archie.Application\Archie.Application.csproj" />
+    <ProjectReference Include="..\Application\Archie.Application.csproj" />
     <ProjectReference Include="..\WebUI\Archie.WebUI.csproj" />
   </ItemGroup>
 

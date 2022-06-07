@@ -4,10 +4,14 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddApplicationModules<ApiUser>(builder.Configuration);
 
-builder.Services.AddControllers()
-    .PartManager.ApplicationParts.Add(new AssemblyPart(Assembly.GetAssembly(typeof(RegisterModules))!));
+builder.Services
+    .AddArchieModules<ApiUser>()
+    .AddArchieSqlDb(builder.Configuration.GetConnectionString("ArchieDb"))
+    .AddControllers()
+        .PartManager
+        .ApplicationParts
+        .Add(new AssemblyPart(Assembly.GetAssembly(typeof(RegisterModules))!));
 
 var app = builder.Build();
 

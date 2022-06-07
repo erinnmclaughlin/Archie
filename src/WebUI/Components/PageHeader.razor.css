@@ -1,0 +1,10 @@
+﻿.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .page-header > h4 {
+        margin-bottom: 0;
+        display: flex;
+    }

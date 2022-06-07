@@ -4,22 +4,18 @@ html, body {
     font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans","Liberation Sans",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"
 }
 
-h1:focus {
-    outline: none;
+hr {
+    background-color: #9ca3af;
 }
-
-a, .btn-link {
-    color: #0071c1;
-}
-
-.btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
-}
-
+ 
 .content {
     padding-top: 1.1rem;
+}
+
+.page {
+    position: relative;
+    display: flex;
+    flex-direction: row;
 }
 
 .valid.modified:not([type=checkbox]) {
