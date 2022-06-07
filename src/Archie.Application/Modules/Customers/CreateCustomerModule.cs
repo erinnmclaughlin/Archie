@@ -10,12 +10,12 @@ namespace Archie.Application.Modules.Customers;
 [ApiController]
 public class CreateCustomerModule : IModule
 {
-    private AuditFactory Audits { get; }
+    private ICurrentUserService CurrentUser { get; }
     private IRepository Repository { get; }
 
-    public CreateCustomerModule(AuditFactory audits, IRepository repository)
+    public CreateCustomerModule(ICurrentUserService currentUser, IRepository repository)
     {
-        Audits = audits;
+        CurrentUser = currentUser;
         Repository = repository;
     }
 
@@ -29,7 +29,7 @@ public class CreateCustomerModule : IModule
             CompanyName = request.CompanyName,
             Location = request.Location,
 
-            AuditTrail = new List<Audit> { Audits.CustomerCreated(request.CompanyName) }
+            AuditTrail = new List<Audit> { CustomerCreated(request.CompanyName) }
         };
 
         Repository.Add(customer);
@@ -38,24 +38,15 @@ public class CreateCustomerModule : IModule
         return new CreateCustomerResponse(customer.Id);
     }
 
-    public class AuditFactory
+    [NonAction]
+    public Audit CustomerCreated(string companyName)
     {
-        private ICurrentUserService CurrentUser { get; }
-
-        public AuditFactory(ICurrentUserService currentUser)
+        return new Audit
         {
-            CurrentUser = currentUser;
-        }
-
-        public virtual Audit CustomerCreated(string companyName)
-        {
-            return new Audit
-            {
-                AuditType = AuditType.Create,
-                EventType = EventType.CustomerCreated,
-                Description = $"Customer `{companyName}` was created.",
-                UserId = CurrentUser.Id
-            };
-        }
+            AuditType = AuditType.Create,
+            EventType = EventType.CustomerCreated,
+            Description = $"Customer `{companyName}` was created.",
+            UserId = CurrentUser.Id
+        };
     }
 }

@@ -12,12 +12,12 @@ namespace Archie.Application.Modules.Customers;
 [ApiController]
 public class UpdateCustomerModule : IModule
 {
-    private AuditFactory Audits { get; }
+    private ICurrentUserService CurrentUser { get; }
     private IRepository Repository { get; }
 
-    public UpdateCustomerModule(AuditFactory audits, IRepository repository)
+    public UpdateCustomerModule(ICurrentUserService currentUser, IRepository repository)
     {
-        Audits = audits;
+        CurrentUser = currentUser;
         Repository = repository;
     }
 
@@ -33,13 +33,13 @@ public class UpdateCustomerModule : IModule
 
         if (!customer.CompanyName.Equals(request.CompanyName))
         {
-            customer.AuditTrail.Add(Audits.NameUpdated(customer.CompanyName, request.CompanyName));
+            customer.AuditTrail.Add(NameUpdated(customer.CompanyName, request.CompanyName));
             customer.CompanyName = request.CompanyName;
         }
 
         if (!customer.Location.Equals(request.Location))
         {
-            customer.AuditTrail.Add(Audits.LocationUpdated(customer.Location, request.Location));
+            customer.AuditTrail.Add(LocationUpdated(customer.Location, request.Location));
             customer.Location = request.Location;
         }
 
@@ -49,37 +49,27 @@ public class UpdateCustomerModule : IModule
         return new UpdateCustomerResponse(customer.Id, customer.CompanyName, customer.Location);
     }
 
-    public class AuditFactory
+    [NonAction]
+    public Audit LocationUpdated(Location oldLocation, Location newLocation)
     {
-        private ICurrentUserService CurrentUser { get; }
-
-        public AuditFactory(ICurrentUserService currentUser)
+        return new Audit
         {
-            CurrentUser = currentUser;
-        }
-
-        public virtual Audit LocationUpdated(Location oldLocation, Location newLocation)
-        {
-            return new Audit
-            {
-                AuditType = AuditType.Update,
-                EventType = EventType.CustomerLocationUpdated,
-                Description = $"Location was updated from `{oldLocation}` to `{newLocation}`.",
-                UserId = CurrentUser.Id
-            };
-        }
-
-        public virtual Audit NameUpdated(string oldName, string newName)
-        {
-            return new Audit
-            {
-                AuditType = AuditType.Update,
-                EventType = EventType.CustomerNameUpdated,
-                Description = $"Company name was updated from `{oldName}` to `{newName}`.",
-                UserId = CurrentUser.Id
-            };
-        }
+            AuditType = AuditType.Update,
+            EventType = EventType.CustomerLocationUpdated,
+            Description = $"Location was updated from `{oldLocation}` to `{newLocation}`.",
+            UserId = CurrentUser.Id
+        };
     }
-   
 
+    [NonAction]
+    public Audit NameUpdated(string oldName, string newName)
+    {
+        return new Audit
+        {
+            AuditType = AuditType.Update,
+            EventType = EventType.CustomerNameUpdated,
+            Description = $"Company name was updated from `{oldName}` to `{newName}`.",
+            UserId = CurrentUser.Id
+        };
+    }
 }

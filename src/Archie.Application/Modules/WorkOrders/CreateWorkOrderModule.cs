@@ -11,12 +11,12 @@ namespace Archie.Application.Modules.WorkOrders;
 [ApiController]
 public class CreateWorkOrderModule : IModule
 {
-    private AuditFactory Audits { get; }
+    private ICurrentUserService CurrentUser { get; }
     private IRepository Repository { get; }
 
-    public CreateWorkOrderModule(AuditFactory audits, IRepository repository)
+    public CreateWorkOrderModule(ICurrentUserService currentUser, IRepository repository)
     {
-        Audits = audits;
+        CurrentUser = currentUser;
         Repository = repository;
     }
 
@@ -38,7 +38,7 @@ public class CreateWorkOrderModule : IModule
 
         workOrder.AuditTrail = new List<Audit>
         {
-            Audits.WorkOrderCreated(customer, workOrder.ReferenceNumber)
+            WorkOrderCreated(customer, workOrder.ReferenceNumber)
         };
 
         Repository.Add(workOrder);
@@ -47,31 +47,23 @@ public class CreateWorkOrderModule : IModule
         return new CreateWorkOrderResponse(workOrder.Id, workOrder.ReferenceNumber);
     }
 
+    [NonAction]
+    public Audit WorkOrderCreated(Customer customer, string referenceNumber)
+    {
+        return new Audit
+        {
+            AuditType = AuditType.Create,
+            EventType = EventType.WorkOrderCreated,
+            Description = $"Work order `{referenceNumber}` was created for {customer.CompanyName}.",
+            UserId = CurrentUser.Id,
+            Customers = new List<Customer> { customer }
+        };
+    }
+
     private static string GenerateReferenceNumber()
     {
         var today = DateTime.UtcNow;
         return $"{today.Year}{today.Month}{today.Day}-{today.Millisecond:0000}";
     }
 
-    public class AuditFactory
-    { 
-        private ICurrentUserService CurrentUser { get; }
-
-        public AuditFactory(ICurrentUserService currentUser)
-        {
-            CurrentUser = currentUser;
-        }
-
-        public virtual Audit WorkOrderCreated(Customer customer, string referenceNumber)
-        {
-            return new Audit
-            { 
-                AuditType = AuditType.Create,
-                EventType = EventType.WorkOrderCreated,
-                Description = $"Work order `{referenceNumber}` was created for {customer.CompanyName}.",
-                UserId = CurrentUser.Id,
-                Customers = new List<Customer> { customer }
-            };
-        }
-    }
 }
