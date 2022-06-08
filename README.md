@@ -14,6 +14,8 @@ dotnet ef database update
 Update-Database
 ```
 
+After migrations are applied, run the `Archie.Api` project.
+
 ## Application
 
 ## Api
