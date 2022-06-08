@@ -23,7 +23,7 @@ public class CreateCustomerFeatureTests
         get
         {
             var mock = new Mock<IValidator<CreateCustomerRequest>>();
-            mock.Setup(x => x.Validate(It.IsAny<CreateCustomerRequest>())).Returns(new InvalidValidationResult());
+            mock.Setup(_ => _.Validate(It.IsAny<CreateCustomerRequest>())).Returns(new InvalidValidationResult());
             return mock.Object;
         }
     }
@@ -33,7 +33,7 @@ public class CreateCustomerFeatureTests
         get
         {
             var mock = new Mock<IValidator<CreateCustomerRequest>>();
-            mock.Setup(x => x.Validate(It.IsAny<CreateCustomerRequest>())).Returns(new ValidationResult());
+            mock.Setup(_ => _.Validate(It.IsAny<CreateCustomerRequest>())).Returns(new ValidationResult());
             return mock.Object;
         }
     }
@@ -41,59 +41,89 @@ public class CreateCustomerFeatureTests
     [Fact]
     public void CustomerCreated_ShouldReturnAuditWithCorrectAuditType()
     {
+        // Given any current user, any repository, any validator...
         var sut = new CreateCustomerFeature(AnyCurrentUser, AnyRepository, AnyValidator);
+
+        // ...and any name...
         var result = sut.CustomerCreated(It.IsAny<string>());
+
+        // ...the resulting Audit should have AuditType set to AuditType.Create
         result.AuditType.Should().Be(AuditType.Create);
     }
 
     [Fact]
     public void CustomerCreated_ShouldReturnAuditWithCorrectEventType()
     {
+        // Given any current user, any repository, any validator...
         var sut = new CreateCustomerFeature(AnyCurrentUser, AnyRepository, AnyValidator);
+
+        // ...and any name...
         var result = sut.CustomerCreated(It.IsAny<string>());
+
+        // ...the resulting Audit should have EventType set to EventType.CustomerCreated
         result.EventType.Should().Be(EventType.CustomerCreated);
     }
 
     [Fact]
     public void CustomerCreated_ShouldReturnAuditWithCorrectDescription()
     {
+        // Given some name...
+        var someName = It.IsAny<string>();
+
+        // and any current user, any repository, and any validator...
         var sut = new CreateCustomerFeature(AnyCurrentUser, AnyRepository, AnyValidator);
-        var result = sut.CustomerCreated("ABC Company");
-        result.Description.Should().Be("Customer `ABC Company` was created.");
+        var result = sut.CustomerCreated(someName);
+
+        // ...the resulting Audit should have Description set to:
+        result.Description.Should().Be($"Customer `{someName}` was created.");
     }
 
     [Fact]
     public void CustomerCreated_ShouldReturnAuditWithCurrentUserId()
     {
-        var someUserId = It.IsAny<long>();
-
+        // Given a current user service that returns some id...
         var mockCurrentUser = new Mock<ICurrentUserService>();
-        mockCurrentUser.SetupGet(x => x.Id).Returns(someUserId);
+        mockCurrentUser.SetupGet(_ => _.Id).Returns(It.IsAny<long>());
 
+        // ...and any repository, any validator...
         var sut = new CreateCustomerFeature(mockCurrentUser.Object, AnyRepository, AnyValidator);
+
+        // ...and any name...
         var result = sut.CustomerCreated(It.IsAny<string>());
-        result.UserId.Should().Be(someUserId);
+
+        // ...the resulting Audit should have UserId that matches whatever was returned from the current user service
+        result.UserId.Should().Be(mockCurrentUser.Object.Id);
     }
 
     [Fact]
     public async Task Create_ShouldThrowValidationException_WhenValidatorReturnsInvalidValidationResult()
     {
+        // Given any current user, any repository, any validator that returns an INVALID response...
         var sut = new CreateCustomerFeature(AnyCurrentUser, AnyRepository, AnyValidatorWithInvalidResult);
-        var action = async () => await sut.Create(It.IsAny<CreateCustomerRequest>(), CancellationToken.None);
+
+        // ...and any CancellationToken...
+        var action = async () => await sut.Create(It.IsAny<CreateCustomerRequest>(), It.IsAny<CancellationToken>());
+
+        // ...a ValidationException should be thrown
         await action.Should().ThrowAsync<ValidationException>();
     }
 
     [Fact]
     public async Task Create_ShouldAddToRepository_WithCorrectCustomerName()
     {
-        var anyCompanyName = It.IsAny<string>();
-        var someRequest = new CreateCustomerRequest(anyCompanyName, It.IsAny<Location>());
+        // Given a request with any company name...
+        var someRequest = new CreateCustomerRequest(It.IsAny<string>(), It.IsAny<Location>());
 
         var mockRepository = new Mock<IRepository>();
 
+        // ...and any current user, any repository, any validator that returns a VALID response...
         var sut = new CreateCustomerFeature(AnyCurrentUser, mockRepository.Object, AnyValidatorWithValidResult);
+
+        // ...and any CancellationToken...
         await sut.Create(someRequest, It.IsAny<CancellationToken>());
-        mockRepository.Verify(x => x.Add(It.Is<Customer>(c => c.CompanyName == anyCompanyName)));
+
+        // ...a Customer object with a company name matching the request company name should be passed to Repository.Add()
+        mockRepository.Verify(_ => _.Add(It.Is<Customer>(c => c.CompanyName == someRequest.CompanyName)));
     }
 
     [Theory]
@@ -104,14 +134,19 @@ public class CreateCustomerFeatureTests
     [InlineData("Boston", "MA", "USA")]
     public async Task Create_ShouldAddToRepository_WithCorrectCustomerLocation(string? city, string? region, string country)
     {
-        var someLocation = new Location(city, region, country);
-        var someRequest = new CreateCustomerRequest(It.IsAny<string>(), someLocation);
+        // Given a request with any location...
+        var someRequest = new CreateCustomerRequest(It.IsAny<string>(), new Location(city, region, country));
 
         var mockRepository = new Mock<IRepository>();
 
+        // ...any any current user, any repository, any validator that returns a VALID response...
         var sut = new CreateCustomerFeature(AnyCurrentUser, mockRepository.Object, AnyValidatorWithValidResult);
-        await sut.Create(someRequest, CancellationToken.None);
-        mockRepository.Verify(x => x.Add(It.Is<Customer>(c => c.Location.Equals(someLocation))));
+
+        // ...and any CancellationToken...
+        await sut.Create(someRequest, It.IsAny<CancellationToken>());
+
+        // ...a Customer object with a location matching the request location should be passed to Repository.Add()
+        mockRepository.Verify(_ => _.Add(It.Is<Customer>(c => c.Location.Equals(someRequest.Location))));
     }
 
     [Fact]
@@ -119,10 +154,14 @@ public class CreateCustomerFeatureTests
     {
         var mockRepository = new Mock<IRepository>();
 
+        // Given any current user, any repository, any validator that returns a VALID reponse...
         var sut = new CreateCustomerFeature(AnyCurrentUser, mockRepository.Object, AnyValidatorWithValidResult);
-        var expectedAudit = sut.CustomerCreated(AnyRequest.CompanyName);
-        await sut.Create(AnyRequest, CancellationToken.None);
-        mockRepository.Verify(_ => _.Add(It.Is<Customer>(c => c.AuditTrail != null && AreEquivalent(c.AuditTrail.First(), expectedAudit))));
+        
+        // ...and any CancellationToken...
+        await sut.Create(AnyRequest, It.IsAny<CancellationToken>()); 
+        
+        // ...a Customer object with an audit trail containing a single item, where that item meets the criteria specified in "AreEquivalent" (below), should be passed to Repository.Add()
+        mockRepository.Verify(_ => _.Add(It.Is<Customer>(c => c.AuditTrail != null && AreEquivalent(c.AuditTrail.First(), sut.CustomerCreated(AnyRequest.CompanyName)))));
     }
 
     [Fact]
@@ -130,22 +169,33 @@ public class CreateCustomerFeatureTests
     {
         var mockRepository = new Mock<IRepository>();
 
+        // Given any current user, any repository, any validator that returns a VALID response...
         var sut = new CreateCustomerFeature(AnyCurrentUser, mockRepository.Object, AnyValidatorWithValidResult);
-        await sut.Create(AnyRequest, CancellationToken.None);
 
-        mockRepository.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()));
+        // ...and any CancellationToken...
+        var someCancellationToken = It.IsAny<CancellationToken>();
+        await sut.Create(AnyRequest, someCancellationToken);
+
+        // ...that CancellationToken is passed to Repository.SaveChangesAsync()
+        mockRepository.Verify(_ => _.SaveChangesAsync(It.Is<CancellationToken>(ct => ct == someCancellationToken)));
     }
 
     [Fact]
     public async Task Create_ShouldReturnResponse_WithCorrectId()
     {
         var someCustomerId = It.IsAny<long>();
-
+        
+        // Given some repository that sets the given Customer.Id to some value...
         var mockRepository = new Mock<IRepository>();
-        mockRepository.Setup(x => x.Add(It.IsAny<Customer>())).Callback<Customer>(c => c.Id = someCustomerId);
+        mockRepository.Setup(_ => _.Add(It.IsAny<Customer>())).Callback<Customer>(c => c.Id = someCustomerId);
 
+        // ...and any current user, any validator that returns a VALID response...
         var sut = new CreateCustomerFeature(AnyCurrentUser, mockRepository.Object, AnyValidatorWithValidResult);
+
+        // ...and any CancellationToken...
         var response = await sut.Create(AnyRequest, It.IsAny<CancellationToken>());
+
+        // ...a CreateCustomerResponse object should be returned with an Id that matches value assigned by the repository
         response.Id.Should().Be(someCustomerId);
     }
 
