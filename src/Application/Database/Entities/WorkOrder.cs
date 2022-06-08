@@ -1,4 +1,4 @@
-﻿using Archie.Shared.Modules.WorkOrders;
+﻿using Archie.Shared.Features.WorkOrders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

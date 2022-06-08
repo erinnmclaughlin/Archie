@@ -1,5 +1,5 @@
-﻿using Archie.Shared.Modules.Customers;
-using Archie.Shared.Modules.Customers.Create;
+﻿using Archie.Shared.Features.Customers;
+using Archie.Shared.Features.Customers.Create;
 using Archie.Shared.ValueObjects;
 using Archie.WebUI.Clients;
 using Archie.WebUI.Services.Dialogs;

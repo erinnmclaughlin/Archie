@@ -1,9 +1,9 @@
-﻿using Archie.Shared.Modules.Customers;
-using Archie.Shared.Modules.Customers.Create;
-using Archie.Shared.Modules.Customers.GetAll;
-using Archie.Shared.Modules.Customers.GetAuditTrail;
-using Archie.Shared.Modules.Customers.GetDetails;
-using Archie.Shared.Modules.Customers.Update;
+﻿using Archie.Shared.Features.Customers;
+using Archie.Shared.Features.Customers.Create;
+using Archie.Shared.Features.Customers.GetAll;
+using Archie.Shared.Features.Customers.GetAuditTrail;
+using Archie.Shared.Features.Customers.GetDetails;
+using Archie.Shared.Features.Customers.Update;
 using Refit;
 
 namespace Archie.WebUI.Clients;

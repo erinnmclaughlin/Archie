@@ -6,12 +6,12 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
-    .AddArchieModules<ApiUser>()
+    .AddArchie<ApiUser>()
     .AddArchieSqlDb(builder.Configuration.GetConnectionString("ArchieDb"))
     .AddControllers()
         .PartManager
         .ApplicationParts
-        .Add(new AssemblyPart(Assembly.GetAssembly(typeof(RegisterModules))!));
+        .Add(new AssemblyPart(Assembly.GetAssembly(typeof(ServiceCollectionExtensions))!));
 
 var app = builder.Build();
 

@@ -1,4 +1,4 @@
-﻿using Archie.Shared.Modules.Customers.GetAll;
+﻿using Archie.Shared.Features.Customers.GetAll;
 using Archie.WebUI.Clients;
 using Archie.WebUI.Features.Customers.Dialogs;
 using Archie.WebUI.Services.Dialogs;
