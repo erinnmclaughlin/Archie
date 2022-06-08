@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Archie.Application.Features.AuditTrails;
 
 [ApiController]
-public class GetRecentActivityFeature : IFeature
+public class GetRecentActivityFeature
 {
     private IRepository Repository { get; }
 

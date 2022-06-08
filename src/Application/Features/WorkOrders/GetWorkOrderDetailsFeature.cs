@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Archie.Application.Features.WorkOrders;
 
 [ApiController]
-public class GetWorkOrderDetailsFeature : IFeature
+public class GetWorkOrderDetailsFeature
 {
     private IRepository Repository { get; }
 

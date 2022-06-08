@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Archie.Application.Features.WorkOrders;
 
 [ApiController]
-public class CreateWorkOrderFeature : IFeature
+public class CreateWorkOrderFeature
 {
     private ICurrentUserService CurrentUser { get; }
     private IRepository Repository { get; }

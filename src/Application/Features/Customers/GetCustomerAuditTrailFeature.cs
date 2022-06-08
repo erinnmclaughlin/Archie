@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Archie.Application.Features.Customers;
 
 [ApiController]
-public class GetCustomerAuditTrailFeature : IFeature
+public class GetCustomerAuditTrailFeature
 {
     private IRepository Repository { get; }
 

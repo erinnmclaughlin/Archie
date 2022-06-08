@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Archie.Application.Features.Customers;
 
 [ApiController]
-public class GetCustomerDetailsFeature : IFeature
+public class GetCustomerDetailsFeature
 {
     private IRepository Repository { get; }
 

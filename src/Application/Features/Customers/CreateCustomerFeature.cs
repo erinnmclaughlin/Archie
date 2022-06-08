@@ -8,21 +8,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Archie.Application.Features.Customers;
 
-public interface ICreateCustomerAuditService
-{
-    Audit CustomerCreated(string companyName);
-}
-
 [ApiController]
 public class CreateCustomerFeature
 {
-    private ICreateCustomerAuditService Audits { get; }
+    private ICurrentUserService CurrentUser { get; }
     private IRepository Repository { get; }
     private IValidator<CreateCustomerRequest> Validator { get; }
 
-    public CreateCustomerFeature(ICreateCustomerAuditService audits, IRepository repository, IValidator<CreateCustomerRequest> validator)
+    public CreateCustomerFeature(ICurrentUserService currentUser, IRepository repository, IValidator<CreateCustomerRequest> validator)
     {
-        Audits = audits;
+        CurrentUser = currentUser;
         Repository = repository;
         Validator = validator;
     }
@@ -40,7 +35,7 @@ public class CreateCustomerFeature
             CompanyName = request.CompanyName,
             Location = request.Location,
 
-            AuditTrail = new List<Audit> { Audits.CustomerCreated(request.CompanyName) }
+            AuditTrail = new List<Audit> { CustomerCreated(request.CompanyName) }
         };
 
         Repository.Add(customer);
@@ -49,24 +44,15 @@ public class CreateCustomerFeature
         return new CreateCustomerResponse(customer.Id);
     }
 
-    public class AuditService : ICreateCustomerAuditService
+    [NonAction]
+    public Audit CustomerCreated(string companyName)
     {
-        private ICurrentUserService CurrentUser { get; }
-
-        public AuditService(ICurrentUserService currentUser)
+        return new Audit
         {
-            CurrentUser = currentUser;
-        }
-
-        public virtual Audit CustomerCreated(string companyName)
-        {
-            return new Audit
-            {
-                AuditType = AuditType.Create,
-                EventType = EventType.CustomerCreated,
-                Description = $"Customer `{companyName}` was created.",
-                UserId = CurrentUser.Id
-            };
-        }
+            AuditType = AuditType.Create,
+            EventType = EventType.CustomerCreated,
+            Description = $"Customer `{companyName}` was created.",
+            UserId = CurrentUser.Id
+        };
     }
 }

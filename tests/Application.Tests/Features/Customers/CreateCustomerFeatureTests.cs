@@ -1,6 +1,7 @@
 ﻿using Archie.Application.Common;
 using Archie.Application.Database.Entities;
 using Archie.Application.Features.Customers;
+using Archie.Shared.Features.Audits;
 using Archie.Shared.Features.Customers.Create;
 using Archie.Shared.ValueObjects;
 using FluentAssertions;
@@ -12,6 +13,52 @@ namespace Archie.Application.Tests.Features.Customers;
 
 public class CreateCustomerFeatureTests
 {
+    [Fact]
+    public void CustomerCreated_ShouldReturnAuditWithCorrectAuditType()
+    {
+        var mockCurrentUser = new Mock<ICurrentUserService>();
+        mockCurrentUser.SetupGet(x => x.Id);
+
+        var sut = new CreateCustomerFeature(mockCurrentUser.Object, default!, default!);
+        var result = sut.CustomerCreated("Some Company Name");
+        result.AuditType.Should().Be(AuditType.Create);
+    }
+
+    [Fact]
+    public void CustomerCreated_ShouldReturnAuditWithCorrectEventType()
+    {
+        var mockCurrentUser = new Mock<ICurrentUserService>();
+        mockCurrentUser.SetupGet(x => x.Id);
+
+        var sut = new CreateCustomerFeature(mockCurrentUser.Object, default!, default!);
+        var result = sut.CustomerCreated("Acme Corp");
+        result.EventType.Should().Be(EventType.CustomerCreated);
+    }
+
+    [Fact]
+    public void CustomerCreated_ShouldReturnAuditWithCorrectDescription()
+    {
+        var mockCurrentUser = new Mock<ICurrentUserService>();
+        mockCurrentUser.SetupGet(x => x.Id);
+
+        var sut = new CreateCustomerFeature(mockCurrentUser.Object, default!, default!);
+        var result = sut.CustomerCreated("ABC Company");
+        result.Description.Should().Be("Customer `ABC Company` was created.");
+    }
+
+    [Fact]
+    public void CustomerCreated_ShouldReturnAuditWithCurrentUserId()
+    {
+        var someUserId = 123;
+
+        var mockCurrentUser = new Mock<ICurrentUserService>();
+        mockCurrentUser.SetupGet(x => x.Id).Returns(someUserId);
+
+        var sut = new CreateCustomerFeature(mockCurrentUser.Object, default!, default!);
+        var result = sut.CustomerCreated("A Company");
+        result.UserId.Should().Be(someUserId);
+    }
+
     [Fact]
     public async Task Create_ShouldThrowValidationException_WhenValidatorReturnsInvalidValidationResult()
     {
@@ -27,13 +74,13 @@ public class CreateCustomerFeatureTests
     [Fact]
     public async Task Create_ShouldAddToRepository_WithCorrectCustomerName()
     {
-        var mockAuditService = new Mock<ICreateCustomerAuditService>();
+        var mockCurrentUser = new Mock<ICurrentUserService>();
         var mockRepository = new Mock<IRepository>();
         var mockValidator = new Mock<IValidator<CreateCustomerRequest>>();
         mockValidator.Setup(x => x.Validate(It.IsAny<CreateCustomerRequest>())).Returns(new ValidationResult());
 
         var request = new CreateCustomerRequest("A Company", new Location());
-        var sut = new CreateCustomerFeature(mockAuditService.Object, mockRepository.Object, mockValidator.Object);
+        var sut = new CreateCustomerFeature(mockCurrentUser.Object, mockRepository.Object, mockValidator.Object);
         await sut.Create(request, CancellationToken.None);
 
         mockRepository.Verify(x => x.Add(It.Is<Customer>(c => c.CompanyName == request.CompanyName)));
@@ -46,14 +93,14 @@ public class CreateCustomerFeatureTests
     [InlineData("Boston", "MA", "USA")]
     public async Task Create_ShouldAddToRepository_WithCorrectCustomerLocation(string? city, string? region, string country)
     {
-        var mockAuditService = new Mock<ICreateCustomerAuditService>();
+        var mockCurrentUser = new Mock<ICurrentUserService>();
         var mockRepository = new Mock<IRepository>();
         var mockValidator = new Mock<IValidator<CreateCustomerRequest>>();
         mockValidator.Setup(x => x.Validate(It.IsAny<CreateCustomerRequest>())).Returns(new ValidationResult());
 
         var location = new Location(city, region, country);
         var request = new CreateCustomerRequest("ABC Company", location);
-        var sut = new CreateCustomerFeature(mockAuditService.Object, mockRepository.Object, mockValidator.Object);
+        var sut = new CreateCustomerFeature(mockCurrentUser.Object, mockRepository.Object, mockValidator.Object);
         await sut.Create(request, CancellationToken.None);
 
         mockRepository.Verify(x => x.Add(It.Is<Customer>(c => c.Location.Equals(location))));
@@ -62,28 +109,29 @@ public class CreateCustomerFeatureTests
     [Fact]
     public async Task Create_ShouldAddToRepository_WithCorrectAuditTrail()
     {
-        var someAuditEvent = new Audit();
-        var mockAuditService = new Mock<ICreateCustomerAuditService>();
-        mockAuditService.Setup(x => x.CustomerCreated(It.IsAny<string>())).Returns(someAuditEvent);
+        var someRequest = new CreateCustomerRequest("Some Name", new());
+        var mockCurrentUser = new Mock<ICurrentUserService>();
         var mockRepository = new Mock<IRepository>();
         var mockValidator = new Mock<IValidator<CreateCustomerRequest>>();
         mockValidator.Setup(x => x.Validate(It.IsAny<CreateCustomerRequest>())).Returns(new ValidationResult());
 
-        var sut = new CreateCustomerFeature(mockAuditService.Object, mockRepository.Object, mockValidator.Object);
-        await sut.Create(new CreateCustomerRequest(default!, default!), CancellationToken.None);
+        var sut = new CreateCustomerFeature(mockCurrentUser.Object, mockRepository.Object, mockValidator.Object);
 
-        mockRepository.Verify(x => x.Add(It.Is<Customer>(c => c.AuditTrail != null && c.AuditTrail.Count == 1 && c.AuditTrail.First().Equals(someAuditEvent))));
+        var expectedAudit = sut.CustomerCreated(someRequest.CompanyName);
+        await sut.Create(someRequest, CancellationToken.None);
+
+        mockRepository.Verify(_ => _.Add(It.Is<Customer>(c => c.AuditTrail != null && AreEquivalent(c.AuditTrail.First(), expectedAudit))));
     }
 
     [Fact]
     public async Task Create_ShouldCallSaveChanges()
     {
-        var mockAuditService = new Mock<ICreateCustomerAuditService>();
+        var mockCurrentUser = new Mock<ICurrentUserService>();
         var mockRepository = new Mock<IRepository>();
         var mockValidator = new Mock<IValidator<CreateCustomerRequest>>();
         mockValidator.Setup(x => x.Validate(It.IsAny<CreateCustomerRequest>())).Returns(new ValidationResult());
 
-        var sut = new CreateCustomerFeature(mockAuditService.Object, mockRepository.Object, mockValidator.Object);
+        var sut = new CreateCustomerFeature(mockCurrentUser.Object, mockRepository.Object, mockValidator.Object);
         await sut.Create(new CreateCustomerRequest(default!, default!), CancellationToken.None);
 
         mockRepository.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()));
@@ -92,5 +140,14 @@ public class CreateCustomerFeatureTests
     private class InvalidValidationResult : ValidationResult
     {
         public override bool IsValid => false;
+    }
+
+    private static bool AreEquivalent(Audit actual, Audit expected)
+    {
+        actual.AuditType.Should().Be(expected.AuditType);
+        actual.Description.Should().Be(expected.Description);
+        actual.EventType.Should().Be(expected.EventType);
+
+        return true;
     }
 }
