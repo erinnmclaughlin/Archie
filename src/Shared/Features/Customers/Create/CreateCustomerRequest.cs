@@ -14,8 +14,6 @@ public class CreateCustomerRequest
         Location = location;
     }
 
-    public void Validate() => new Validator().ValidateAndThrow(this);
-
     public class Validator : AbstractValidator<CreateCustomerRequest>
     {
         public Validator()

@@ -1,5 +1,7 @@
 ﻿using Archie.Application.Common;
 using Archie.Application.Database;
+using Archie.Shared.Features.Customers.Create;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,9 +11,11 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddArchie<T>(this IServiceCollection services) where T : ICurrentUserService
     {
-        services.AddScoped(typeof(ICurrentUserService), typeof(T));
+        services
+            .AddScoped(typeof(ICurrentUserService), typeof(T))
+            .AddScoped<IRepository, ArchieRepository>()
+            .AddValidatorsFromAssemblyContaining<CreateCustomerRequest>();
 
-        services.AddScoped<IRepository, ArchieRepository>();
         return services;
     }
 
