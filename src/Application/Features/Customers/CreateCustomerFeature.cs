@@ -38,8 +38,7 @@ public class CreateCustomerFeature : IFeature
         return new CreateCustomerResponse(customer.Id);
     }
 
-    [NonAction]
-    public Audit CustomerCreated(string companyName)
+    private Audit CustomerCreated(string companyName)
     {
         return new Audit
         {
