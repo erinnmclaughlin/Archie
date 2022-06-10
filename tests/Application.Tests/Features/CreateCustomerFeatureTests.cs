@@ -76,7 +76,7 @@ public class CreateCustomerFeatureTests
     }
 
     [Fact]
-    public async Task Create_ShouldAddCustomerToDatabase()
+    public async Task Create_ShouldAddCustomerAndAuditEventToDatabase()
     {
         // Arrange
         var mockCurrentUser = new Mock<ICurrentUserService>();
@@ -94,7 +94,16 @@ public class CreateCustomerFeatureTests
         var response = await sut.Create(someValidRequest, It.IsAny<CancellationToken>());
 
         // Assert
-        context.Customers.Any(c => c.Id == response.Id).Should().BeTrue();
+        var customer = context.Customers.Single();
+        customer.CompanyName.Should().Be(someValidRequest.CompanyName);
+        customer.Location.Should().Be(someValidRequest.Location);
+        customer.Id.Should().Be(response.Id);
+
+        var audit = context.Audits.Single();
+        audit.AuditType.Should().Be(AuditType.Create);
+        audit.Description.Should().Be("Customer `ABC Company` was created.");
+        audit.EventType.Should().Be(EventType.CustomerCreated);
+        audit.UserId.Should().Be(mockCurrentUser.Object.Id);
     }
 
     private static bool IsExpected(Customer customer, CreateCustomerRequest request, long currentUserId)
