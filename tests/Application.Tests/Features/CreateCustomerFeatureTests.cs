@@ -53,6 +53,9 @@ public class CreateCustomerFeatureTests
             .Create(someRequest, It.IsAny<CancellationToken>());
 
         // Assert
+        mockRepository.Verify(_ => _.Add(It.IsAny<Customer>()), Times.Once);
+        mockRepository.Verify(_ => _.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
+
         customer.Should().NotBeNull();
         customer!.CompanyName.Should().Be(someRequest.CompanyName);
         customer.Location.Should().BeEquivalentTo(someRequest.Location);
