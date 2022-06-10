@@ -14,7 +14,6 @@ public static class ServiceCollectionExtensions
         return services
             .AddScoped(typeof(ICurrentUserService), typeof(T))
             .AddScoped<IRepository, ArchieRepository>()
-            .AddAutoMapper(Assembly.GetExecutingAssembly())
             .AddValidatorsFromAssembly(Assembly.Load("Archie.Shared"));
     }
 

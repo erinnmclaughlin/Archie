@@ -5,7 +5,7 @@ namespace Archie.Shared.Features.Customers.Create;
 
 public class CreateCustomerRequest
 {
-    public string CompanyName { get; set; } = string.Empty;
+    public string CompanyName { get; set; }
     public Location Location { get; set; }
 
     public CreateCustomerRequest(string companyName, Location location)
@@ -13,8 +13,6 @@ public class CreateCustomerRequest
         CompanyName = companyName;
         Location = location;
     }
-
-    public void Validate() => new Validator().ValidateAndThrow(this);
 
     public class Validator : AbstractValidator<CreateCustomerRequest>
     {
