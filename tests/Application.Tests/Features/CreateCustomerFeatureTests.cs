@@ -37,8 +37,11 @@ public class CreateCustomerFeatureTests
         // Arrange
         var mockCurrentUser = new Mock<ICurrentUserService>();
         mockCurrentUser.SetupGet(_ => _.Id).Returns(It.IsAny<long>());
+        var currentUser = mockCurrentUser.Object;
 
+        Customer? customer = null;
         var mockRepository = new Mock<IRepository>();
+        mockRepository.Setup(_ => _.Add(It.IsAny<Customer>())).Callback<Customer>(c => customer = c);
 
         var mockValidator = new Mock<IValidator<CreateCustomerRequest>>();
         mockValidator.Setup(_ => _.Validate(It.IsAny<CreateCustomerRequest>())).Returns(new ValidationResult());
@@ -46,11 +49,19 @@ public class CreateCustomerFeatureTests
         var someRequest = new CreateCustomerRequest(It.IsAny<string>(), It.IsAny<Location>());
 
         // Act
-        await new CreateCustomerFeature(mockCurrentUser.Object, mockRepository.Object, mockValidator.Object)
+        await new CreateCustomerFeature(currentUser, mockRepository.Object, mockValidator.Object)
             .Create(someRequest, It.IsAny<CancellationToken>());
 
         // Assert
-        mockRepository.Verify(_ => _.Add(It.Is<Customer>(c => IsExpected(c, someRequest, mockCurrentUser.Object.Id))), Times.Once);
+        customer.Should().NotBeNull();
+        customer!.CompanyName.Should().Be(someRequest.CompanyName);
+        customer.Location.Should().BeEquivalentTo(someRequest.Location);
+        customer.AuditTrail.Should().NotBeNull();
+        var audit = customer.AuditTrail.Should().ContainSingle().Which;
+        audit.AuditType.Should().Be(AuditType.Create);
+        audit.Description.Should().Be($"Customer `{someRequest.CompanyName}` was created.");
+        audit.EventType.Should().Be(EventType.CustomerCreated);
+        audit.UserId.Should().Be(currentUser.Id);
     }
 
     [Fact]
@@ -75,20 +86,5 @@ public class CreateCustomerFeatureTests
         var customer = context.Customers.Include(c => c.AuditTrail).SingleOrDefault();
         customer.Should().NotBeNull();
         customer?.AuditTrail.Should().ContainSingle();
-    }
-
-    private static bool IsExpected(Customer customer, CreateCustomerRequest request, long currentUserId)
-    {
-        customer.CompanyName.Should().Be(request.CompanyName);
-        customer.Location.Should().BeEquivalentTo(request.Location);
-
-        customer.AuditTrail.Should().NotBeNull();
-        var audit = customer.AuditTrail.Should().ContainSingle().Which;
-        audit.AuditType.Should().Be(AuditType.Create);
-        audit.Description.Should().Be($"Customer `{request.CompanyName}` was created.");
-        audit.EventType.Should().Be(EventType.CustomerCreated);
-        audit.UserId.Should().Be(currentUserId);
-
-        return true;
     }
 }
