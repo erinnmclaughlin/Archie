@@ -9,6 +9,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Archie.Application.Tests.Features.Customers;
 
+/// <summary>
+/// PROS OF THIS APPROACH:
+/// 1. Implementation agnostic
+///    a. Scales well with change
+///    b. Supports TDD
+/// 2. Simpler tests / easier to understand
+/// 
+/// CONS OF THIS APPROACH:
+/// 1. Does not FULLY cover all possible cases
+///    a. e.g., attempting to prove "for all" by proving "for one"
+/// 2. Requires in memory db (slower tests)
+/// </summary>
+
 public class CreateCustomerFeatureTests
 {
     [Fact]
