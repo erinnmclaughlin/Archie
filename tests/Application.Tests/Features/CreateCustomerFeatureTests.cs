@@ -15,32 +15,8 @@ namespace Archie.Application.Tests.Features;
 
 public class CreateCustomerFeatureTests
 {
-    /// <summary>
-    /// Pros I see with a test like this:
-    /// 1. It's simple & easy to understand
-    /// 
-    /// Cons I see with a test like this:
-    /// 1. We're relying on `CreateCustomerRequest.Validator` to be the implementation of IValidator
-    /// 2. We're relying on our chosen "invalid" request example to be representative of ALL invalid requests
-    /// </summary>
-    /// <returns></returns>
     [Fact]
-    public async Task Create_ShouldThrowValidationException_WhenRequestIsInvalid_Classic()
-    {
-        // Arrange
-        var validator = new CreateCustomerRequest.Validator();
-        var someInvalidRequest = new CreateCustomerRequest("A Company without a Country", new Location());
-
-        // Act
-        var sut = new CreateCustomerFeature(default!, default!, validator);
-
-        // Assert
-        await sut.Invoking(_ => _.Create(someInvalidRequest, CancellationToken.None))
-            .Should().ThrowAsync<ValidationException>();
-    }
-
-    [Fact]
-    public async Task Create_ShouldThrowValidationException_WhenRequestIsInvalid_London()
+    public async Task Create_ShouldThrowValidationException_WhenRequestIsInvalid()
     {
         // Arrange
         var mockValidator = new Mock<IValidator<CreateCustomerRequest>>();
@@ -49,17 +25,16 @@ public class CreateCustomerFeatureTests
 
         var someInvalidRequest = new CreateCustomerRequest(It.IsAny<string>(), It.IsAny<Location>());
 
-        // Act
-        var sut = new CreateCustomerFeature(default!, default!, mockValidator.Object);
-
-        // Assert
-        await sut.Invoking(_ => _.Create(someInvalidRequest, It.IsAny<CancellationToken>()))
+        // Act & Assert
+        await new CreateCustomerFeature(default!, default!, mockValidator.Object)
+            .Invoking(_ => _.Create(someInvalidRequest, It.IsAny<CancellationToken>()))
             .Should().ThrowAsync<ValidationException>();
     }
 
     [Fact]
     public async Task Create_ShouldAddCorrectCustomerToRepository()
     {
+        // Arrange
         var mockCurrentUser = new Mock<ICurrentUserService>();
         mockCurrentUser.SetupGet(_ => _.Id).Returns(It.IsAny<long>());
 
@@ -70,9 +45,11 @@ public class CreateCustomerFeatureTests
 
         var someRequest = new CreateCustomerRequest(It.IsAny<string>(), It.IsAny<Location>());
 
-        var sut = new CreateCustomerFeature(mockCurrentUser.Object, mockRepository.Object, mockValidator.Object);
-        await sut.Create(someRequest, It.IsAny<CancellationToken>());
+        // Act
+        await new CreateCustomerFeature(mockCurrentUser.Object, mockRepository.Object, mockValidator.Object)
+            .Create(someRequest, It.IsAny<CancellationToken>());
 
+        // Assert
         mockRepository.Verify(_ => _.Add(It.Is<Customer>(c => IsExpected(c, someRequest, mockCurrentUser.Object.Id))), Times.Once);
     }
 
@@ -91,8 +68,8 @@ public class CreateCustomerFeatureTests
         var someValidRequest = new CreateCustomerRequest("ABC Company", new Location("Boston", "MA", "USA"));
 
         // Act
-        var sut = new CreateCustomerFeature(mockCurrentUser.Object, repository, mockValidator.Object);
-        var response = await sut.Create(someValidRequest, It.IsAny<CancellationToken>());
+        var response = await new CreateCustomerFeature(mockCurrentUser.Object, repository, mockValidator.Object)
+            .Create(someValidRequest, It.IsAny<CancellationToken>());
 
         // Assert
         var customer = context.Customers.Include(c => c.AuditTrail).SingleOrDefault();
