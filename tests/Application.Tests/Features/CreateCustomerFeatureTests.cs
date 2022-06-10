@@ -8,6 +8,7 @@ using Archie.Shared.ValueObjects;
 using FluentAssertions;
 using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 
 namespace Archie.Application.Tests.Features;
@@ -94,12 +95,12 @@ public class CreateCustomerFeatureTests
         var response = await sut.Create(someValidRequest, It.IsAny<CancellationToken>());
 
         // Assert
-        var customer = context.Customers.Single();
+        var customer = context.Customers.Include(c => c.AuditTrail).Single();
         customer.CompanyName.Should().Be(someValidRequest.CompanyName);
         customer.Location.Should().Be(someValidRequest.Location);
         customer.Id.Should().Be(response.Id);
 
-        var audit = context.Audits.Single();
+        var audit = customer.AuditTrail!.Single();
         audit.AuditType.Should().Be(AuditType.Create);
         audit.Description.Should().Be("Customer `ABC Company` was created.");
         audit.EventType.Should().Be(EventType.CustomerCreated);
