@@ -27,7 +27,10 @@ public class CreateCustomerFeature
     [HttpPost(CustomerEndpoints.CreateCustomer)]
     public async Task<CreateCustomerResponse> Create(CreateCustomerRequest request, CancellationToken ct)
     {
-        Validator.ValidateAndThrow(request);
+        var validationResult = Validator.Validate(request);
+
+        if (!validationResult.IsValid)
+            throw new ValidationException(validationResult.Errors);
 
         var customer = Mapper.Map<Customer>(request); 
         AuditService.AddCreateEventToCustomerAuditTrail(customer);
