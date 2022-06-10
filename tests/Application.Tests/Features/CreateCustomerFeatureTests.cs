@@ -96,15 +96,7 @@ public class CreateCustomerFeatureTests
 
         // Assert
         var customer = context.Customers.Include(c => c.AuditTrail).Single();
-        customer.CompanyName.Should().Be(someValidRequest.CompanyName);
-        customer.Location.Should().Be(someValidRequest.Location);
-        customer.Id.Should().Be(response.Id);
-
-        var audit = customer.AuditTrail!.Single();
-        audit.AuditType.Should().Be(AuditType.Create);
-        audit.Description.Should().Be("Customer `ABC Company` was created.");
-        audit.EventType.Should().Be(EventType.CustomerCreated);
-        audit.UserId.Should().Be(mockCurrentUser.Object.Id);
+        IsExpected(customer, someValidRequest, mockCurrentUser.Object.Id).Should().BeTrue();
     }
 
     private static bool IsExpected(Customer customer, CreateCustomerRequest request, long currentUserId)
