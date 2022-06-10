@@ -95,8 +95,9 @@ public class CreateCustomerFeatureTests
         var response = await sut.Create(someValidRequest, It.IsAny<CancellationToken>());
 
         // Assert
-        var customer = context.Customers.Include(c => c.AuditTrail).Single();
-        IsExpected(customer, someValidRequest, mockCurrentUser.Object.Id).Should().BeTrue();
+        var customer = context.Customers.Include(c => c.AuditTrail).SingleOrDefault();
+        customer.Should().NotBeNull();
+        customer?.AuditTrail.Should().ContainSingle();
     }
 
     private static bool IsExpected(Customer customer, CreateCustomerRequest request, long currentUserId)
