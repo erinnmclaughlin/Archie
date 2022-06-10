@@ -25,17 +25,9 @@ public class CreateCustomerFeature : IFeature
     [HttpPost(CustomerEndpoints.CreateCustomer)]
     public async Task<CreateCustomerResponse> Create(CreateCustomerRequest request, CancellationToken ct)
     {
-        var validationResult = Validator.Validate(request);
+        ValidateRequestOrThrow(request);
 
-        if (!validationResult.IsValid)
-            throw new ValidationException(validationResult.Errors);
-
-        var customer = new Customer
-        {
-            CompanyName = request.CompanyName,
-            Location = request.Location,
-            AuditTrail = new List<Audit> { CustomerCreated(request.CompanyName) }
-        };
+        var customer = CreateCustomerWithAuditTrail(request);
 
         Repository.Add(customer);
         await Repository.SaveChangesAsync(ct);
@@ -43,7 +35,28 @@ public class CreateCustomerFeature : IFeature
         return new CreateCustomerResponse(customer.Id);
     }
 
-    private Audit CustomerCreated(string companyName)
+    private Customer CreateCustomerWithAuditTrail(CreateCustomerRequest request)
+    {
+        return new Customer
+        {
+            CompanyName = request.CompanyName,
+            Location = request.Location,
+            AuditTrail = new List<Audit> 
+            { 
+                GetCustomerCreatedEvent(request.CompanyName) 
+            }
+        };
+    }
+
+    private void ValidateRequestOrThrow(CreateCustomerRequest request)
+    {
+        var validationResult = Validator.Validate(request);
+
+        if (!validationResult.IsValid)
+            throw new ValidationException(validationResult.Errors);
+    }
+
+    private Audit GetCustomerCreatedEvent(string companyName)
     {
         return new Audit
         {
