@@ -3,6 +3,8 @@ using Archie.Application.Database.Entities;
 using Archie.Shared.Features.Audits;
 using Archie.Shared.Features.Customers;
 using Archie.Shared.Features.Customers.Create;
+using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Archie.Application.Features.Customers;
@@ -11,35 +13,36 @@ namespace Archie.Application.Features.Customers;
 public class CreateCustomerFeature : IFeature
 {
     private ICurrentUserService CurrentUser { get; }
+    private IMapper Mapper { get; }
     private IRepository Repository { get; }
+    private IValidator<CreateCustomerRequest> Validator { get; }
 
-    public CreateCustomerFeature(ICurrentUserService currentUser, IRepository repository)
+    public CreateCustomerFeature(ICurrentUserService currentUser, IMapper mapper, IRepository repository, IValidator<CreateCustomerRequest> validator)
     {
         CurrentUser = currentUser;
+        Mapper = mapper;
         Repository = repository;
+        Validator = validator;
     }
 
     [HttpPost(CustomerEndpoints.CreateCustomer)]
     public async Task<CreateCustomerResponse> Create(CreateCustomerRequest request, CancellationToken ct)
     {
-        request.Validate();
+        var validationResult = Validator.Validate(request);
 
-        var customer = new Customer
-        {
-            CompanyName = request.CompanyName,
-            Location = request.Location,
+        if (!validationResult.IsValid)
+            throw new ValidationException(validationResult.Errors);
 
-            AuditTrail = new List<Audit> { CustomerCreated(request.CompanyName) }
-        };
+        var customer = Mapper.Map<Customer>(request);
+        customer.AuditTrail = new List<Audit> { CustomerCreated(request.CompanyName) };
 
         Repository.Add(customer);
         await Repository.SaveChangesAsync(ct);
 
-        return new CreateCustomerResponse(customer.Id);
+        return Mapper.Map<CreateCustomerResponse>(customer);
     }
 
-    [NonAction]
-    public Audit CustomerCreated(string companyName)
+    private Audit CustomerCreated(string companyName)
     {
         return new Audit
         {
@@ -48,5 +51,14 @@ public class CreateCustomerFeature : IFeature
             Description = $"Customer `{companyName}` was created.",
             UserId = CurrentUser.Id
         };
+    }
+
+    public class MappingProfile : Profile
+    {
+        public MappingProfile()
+        {
+            CreateMap<CreateCustomerRequest, Customer>();
+            CreateMap<Customer, CreateCustomerResponse>();
+        }
     }
 }
