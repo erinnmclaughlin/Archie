@@ -11,7 +11,7 @@ builder.Services
     .AddControllers()
         .PartManager
         .ApplicationParts
-        .Add(new AssemblyPart(Assembly.GetAssembly(typeof(ServiceCollectionExtensions))!));
+        .Add(new AssemblyPart(Assembly.Load("Archie.Application")));
 
 var app = builder.Build();
 
